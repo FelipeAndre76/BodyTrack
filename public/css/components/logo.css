@@ -1,0 +1,12 @@
+.brand-logo {
+    margin-bottom: 40px;
+}
+
+.brand-logo img {
+    width: 180px;
+
+    filter:
+    drop-shadow(
+        0 0 12px rgba(163,230,53,.35)
+    );
+}

@@ -1,0 +1,80 @@
+.sidebar {
+    width: 260px;
+    min-height: 100vh;
+    background: #0b0f0c;
+    border-right: 1px solid rgba(163,230,53,.25);
+    padding: 24px;
+    position: fixed;
+}
+
+.brand {
+    color: #a3e635;
+    font-size: 28px;
+    font-weight: 800;
+    margin-bottom: 40px;
+}
+
+.brand span {
+    color: #fff;
+}
+
+.menu-link {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    color: #cbd5c0;
+    text-decoration: none;
+    padding: 14px 16px;
+    border-radius: 14px;
+    margin-bottom: 10px;
+}
+
+.menu-link i {
+    font-size: 18px;
+}
+
+.menu-link.active,
+.menu-link:hover {
+    background: #a3e635;
+    color: #050705;
+    font-weight: 700;
+}
+
+
+/* =========================
+   Sidebar - Peso Atual
+========================= */
+
+.sidebar {
+    display: flex;
+    flex-direction: column;
+}
+
+.sidebar-weight {
+    margin-top: auto;
+    background: rgba(163,230,53,.08);
+    border: 1px solid rgba(163,230,53,.2);
+    padding: 14px;
+    border-radius: 18px;
+    box-shadow: 0 0 20px rgba(163,230,53,.08);
+}
+
+.sidebar-weight strong {
+    display: block;
+    color: #a3e635;
+    font-size: 22px;
+    font-weight: 800;
+}
+
+.sidebar-weight span {
+    color: #9ca3af;
+    font-size: 12px;
+}
+
+
+.logout-btn{
+    width:100%;
+    border:none;
+    background:none;
+    text-align:left;
+}

@@ -1,0 +1,15 @@
+.collapse-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    cursor: pointer;
+}
+
+.collapse-header h4 {
+    margin: 0;
+}
+
+.collapse-header i:last-child {
+    color: #a3e635;
+    font-size: 22px;
+}

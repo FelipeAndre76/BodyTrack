@@ -1,0 +1,26 @@
+.btn-bodytrack {
+    background: #a3e635;
+    color: #050705;
+    border: none;
+    border-radius: 14px;
+    padding: 14px 22px;
+    font-weight: 800;
+}
+
+.btn-bodytrack:hover {
+    background: #8fd62f;
+}
+
+.hero-button {
+    background: #a3e635;
+    color: #050705;
+    text-decoration: none;
+    padding: 14px 22px;
+    border-radius: 16px;
+    font-weight: 800;
+}
+
+.hero-button:hover {
+    background: #8fd62f;
+    color: #050705;
+}

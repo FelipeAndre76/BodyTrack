@@ -1,0 +1,31 @@
+.weight-progress-info {
+    display: flex;
+    justify-content: space-between;
+    color: #9ca3af;
+    font-size: 14px;
+    margin-bottom: 8px;
+}
+
+.body-progress {
+    height: 16px;
+    background: #1f2933;
+    border-radius: 999px;
+    overflow: hidden;
+    border: 1px solid rgba(163,230,53,.25);
+}
+
+.body-progress-bar {
+    height: 100%;
+    background: linear-gradient(
+        90deg,
+        #65a30d,
+        #a3e635
+    );
+    border-radius: 999px;
+}
+
+.progress-percent {
+    color: #a3e635;
+    font-weight: 800;
+    font-size: 22px;
+}
