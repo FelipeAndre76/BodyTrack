@@ -1,58 +1,224 @@
-<p align="center"><a href="https://laravel.com" target="_blank"><img src="https://raw.githubusercontent.com/laravel/art/master/logo-lockup/5%20SVG/2%20CMYK/1%20Full%20Color/laravel-logolockup-cmyk-red.svg" width="400" alt="Laravel Logo"></a></p>
+# 🟢 BodyTrack
 
-<p align="center">
-<a href="https://github.com/laravel/framework/actions"><img src="https://github.com/laravel/framework/workflows/tests/badge.svg" alt="Build Status"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/dt/laravel/framework" alt="Total Downloads"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/v/laravel/framework" alt="Latest Stable Version"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/l/laravel/framework" alt="License"></a>
-</p>
+## 📌 Sobre o Projeto
 
-## About Laravel
+O **BodyTrack** é uma aplicação web desenvolvida para acompanhamento de evolução corporal, saúde e desempenho físico.
 
-Laravel is a web application framework with expressive, elegant syntax. We believe development must be an enjoyable and creative experience to be truly fulfilling. Laravel takes the pain out of development by easing common tasks used in many web projects, such as:
+A proposta do sistema é centralizar todas as informações importantes da jornada do usuário em um único dashboard inteligente.
 
-- [Simple, fast routing engine](https://laravel.com/docs/routing).
-- [Powerful dependency injection container](https://laravel.com/docs/container).
-- Multiple back-ends for [session](https://laravel.com/docs/session) and [cache](https://laravel.com/docs/cache) storage.
-- Expressive, intuitive [database ORM](https://laravel.com/docs/eloquent).
-- Database agnostic [schema migrations](https://laravel.com/docs/migrations).
-- [Robust background job processing](https://laravel.com/docs/queues).
-- [Real-time event broadcasting](https://laravel.com/docs/broadcasting).
+O projeto nasceu com foco em estudos, evolução técnica e criação de um sistema real utilizando Laravel.
 
-Laravel is accessible, powerful, and provides tools required for large, robust applications.
+---
 
-## Learning Laravel
+## 🚀 Funcionalidades Implementadas (v0.1.0)
 
-Laravel has the most extensive and thorough [documentation](https://laravel.com/docs) and video tutorial library of all modern web application frameworks, making it a breeze to get started with the framework.
+### 🔐 Autenticação
 
-In addition, [Laracasts](https://laracasts.com) contains thousands of video tutorials on a range of topics including Laravel, modern PHP, unit testing, and JavaScript. Boost your skills by digging into our comprehensive video library.
+- Cadastro de usuários
+- Login personalizado
+- Logout
+- Controle de sessão
+- Rotas protegidas
 
-You can also watch bite-sized lessons with real-world projects on [Laravel Learn](https://laravel.com/learn), where you will be guided through building a Laravel application from scratch while learning PHP fundamentals.
+---
 
-## Agentic Development
+### 📊 Dashboard Inteligente
 
-Laravel's predictable structure and conventions make it ideal for AI coding agents like Claude Code, Cursor, and GitHub Copilot. Install [Laravel Boost](https://laravel.com/docs/ai) to supercharge your AI workflow:
+Dashboard criado para acompanhar a evolução do usuário.
 
-```bash
-composer require laravel/boost --dev
+Recursos:
 
-php artisan boost:install
+- Peso atual
+- Peso perdido
+- Meta restante
+- IMC atual
+- Barra de progresso corporal
+- Card motivacional
+- Gráficos interativos
+
+---
+
+### ⚖️ Controle Corporal
+
+Cadastro e acompanhamento:
+
+- Altura
+- Peso inicial
+- Peso atual
+- Peso objetivo
+- Objetivo corporal
+
+Objetivos disponíveis:
+
+- Emagrecimento
+- Ganho de massa muscular
+- Recomposição corporal
+
+---
+
+### 💧 Controle de Água
+
+Módulo completo para acompanhamento diário.
+
+Funcionalidades:
+
+- Registro rápido de consumo
+- Meta calculada automaticamente pelo peso corporal
+- Histórico de registros
+- Barra de progresso dinâmica
+- Exclusão sem recarregar a página
+- Atualização em tempo real usando JavaScript
+- Alertas personalizados com SweetAlert2
+
+---
+
+### ⚙️ Configurações
+
+Área do usuário contendo:
+
+- Dados da conta
+- Preferências
+- Estrutura preparada para novas funcionalidades
+
+---
+
+## 🎨 Interface
+
+Identidade visual própria:
+
+- Tema Dark
+- Verde Lime
+- Layout premium
+- Sidebar personalizada
+- Cards modernos
+- Design responsivo
+
+---
+
+# 🛠 Tecnologias utilizadas
+
+## Backend
+
+- PHP 8.5
+- Laravel 13
+- Laravel Breeze
+- Eloquent ORM
+- SQLite (ambiente de desenvolvimento)
+
+---
+
+## Frontend
+
+- Blade
+- Bootstrap 5
+- Bootstrap Icons
+- JavaScript
+- Fetch API
+- ApexCharts
+- SweetAlert2
+
+---
+
+# 📂 Estrutura Principal
+
+```text
+BodyTrack
+
+├── Dashboard
+├── Perfil Corporal
+├── Pesagens
+├── Água
+├── Configurações
+
+├── Login
+├── Registro
+└── Logout
 ```
 
-Boost provides your agent 15+ tools and skills that help agents build Laravel applications while following best practices.
+---
 
-## Contributing
+# 🧠 Funcionalidades Futuras
 
-Thank you for considering contributing to the Laravel framework! The contribution guide can be found in the [Laravel documentation](https://laravel.com/docs/contributions).
+## Próximas versões
 
-## Code of Conduct
+### 🥩 Nutrição
 
-In order to ensure that the Laravel community is welcoming to all, please review and abide by the [Code of Conduct](https://laravel.com/docs/contributions#code-of-conduct).
+- Controle de proteína diária
+- Controle alimentar
+- Macronutrientes
 
-## Security Vulnerabilities
+---
 
-If you discover a security vulnerability within Laravel, please send an e-mail to Taylor Otwell via [taylor@laravel.com](mailto:taylor@laravel.com). All security vulnerabilities will be promptly addressed.
+### 🏋️ Treinos
 
-## License
+- Cadastro de exercícios
+- Divisão de treino
+- Histórico de evolução
 
-The Laravel framework is open-sourced software licensed under the [MIT license](https://opensource.org/licenses/MIT).
+---
+
+### 🩺 Saúde
+
+Planejado:
+
+- Upload de exames laboratoriais
+- Leitura automática de exames
+- Histórico médico
+- Controle de medicamentos
+
+---
+
+### 🤖 BodyTrack AI
+
+Objetivo futuro:
+
+Utilizar inteligência artificial para interpretar dados do usuário e gerar recomendações personalizadas.
+
+---
+
+# 🗺 Roadmap
+
+## Versão 0.1.0
+
+✔ Autenticação  
+✔ Dashboard  
+✔ Perfil corporal  
+✔ Controle de peso  
+✔ Controle de água  
+✔ Configurações  
+
+---
+
+## Versão 0.2.0
+
+⬜ Proteína  
+⬜ Nutrição  
+⬜ Treinos  
+
+---
+
+## Versão 0.3.0
+
+⬜ Exames laboratoriais  
+⬜ Medicamentos  
+⬜ Evolução por fotos  
+
+---
+
+## Versão 1.0
+
+⬜ Inteligência Artificial  
+⬜ Aplicação Mobile  
+⬜ Relatórios avançados  
+
+---
+
+# 👨‍💻 Desenvolvedor
+
+Desenvolvido por:
+
+**Felipe André Sousa Brito**
+
+Projeto criado como estudo prático de desenvolvimento Full Stack utilizando Laravel.
+
+---
