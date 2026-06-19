@@ -5,6 +5,7 @@ use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\WeightLogController;
 use App\Http\Controllers\WaterLogController;
+use App\Http\Controllers\NutritionController;
 use Illuminate\Support\Facades\Route;
 
 Route::get('/', function () {
@@ -37,23 +38,33 @@ Route::middleware('auth')->group(function () {
     Route::post('/weights', [WeightLogController::class, 'store'])
         ->name('weights.store');
 
-        Route::get('/water', [WaterLogController::class, 'index'])
-    ->name('water.index');
+    Route::get('/water', [WaterLogController::class, 'index'])
+        ->name('water.index');
 
     Route::post('/water', [WaterLogController::class, 'store'])
-    ->name('water.store');
+        ->name('water.store');
 
     Route::delete('/water/{waterLog}', [WaterLogController::class, 'destroy'])
-    ->name('water.destroy');
+        ->name('water.destroy');
+    Route::get('/nutrition', [NutritionController::class, 'index'])
+        ->name('nutrition.index');
+
+    Route::post('/nutrition', [NutritionController::class, 'store'])
+        ->name('nutrition.store');
+
+    Route::get('/nutrition/search-foods', [NutritionController::class, 'searchFoods'])
+    ->name('nutrition.search-foods');
+
+    Route::delete('/nutrition/{meal}', [NutritionController::class, 'destroy'])
+        ->name('nutrition.destroy');
 
     Route::get('/settings', function () {
         return view('settings.index');
     })->name('settings');
-
 });
 
-   Route::get('/settings', function () {
+Route::get('/settings', function () {
     return view('settings.index');
 })->middleware('auth')->name('settings');
 
-require __DIR__.'/auth.php';
+require __DIR__ . '/auth.php';

@@ -18,9 +18,9 @@
         Pesagens
     </a>
 
-    <a href="#" class="menu-link">
+    <a href="{{ route('nutrition.index') }}" class="menu-link {{ request()->routeIs('nutrition.*') ? 'active' : '' }}">
         <i class="bi bi-egg-fried"></i>
-        Proteína
+        Nutrição
     </a>
 
     <a href="{{ route('water.index') }}" class="menu-link {{ request()->routeIs('water.*') ? 'active' : '' }}">
@@ -53,4 +53,3 @@
     </form>
 
 </aside>
-
