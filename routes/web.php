@@ -7,6 +7,7 @@ use App\Http\Controllers\WeightLogController;
 use App\Http\Controllers\WaterLogController;
 use App\Http\Controllers\NutritionController;
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\WorkoutController;
 
 Route::get('/', function () {
     return view('welcome');
@@ -61,6 +62,21 @@ Route::middleware('auth')->group(function () {
     Route::get('/settings', function () {
         return view('settings.index');
     })->name('settings');
+
+    Route::get('/workouts', [WorkoutController::class, 'index'])
+    ->name('workouts.index');
+
+    Route::post('/workouts/add-exercise', [WorkoutController::class, 'addExercise'])
+    ->name('workouts.add-exercise');
+
+Route::post('/workouts/remove-exercise', [WorkoutController::class, 'removeExercise'])
+    ->name('workouts.remove-exercise');
+
+    Route::post('/workouts/save', [WorkoutController::class, 'saveWorkout'])
+    ->name('workouts.save');
+
+    Route::get('/workouts/history', [WorkoutController::class, 'history'])
+    ->name('workouts.history');
 });
 
 Route::get('/settings', function () {

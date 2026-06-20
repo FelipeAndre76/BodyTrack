@@ -6,8 +6,9 @@ use Illuminate\Support\Facades\Schema;
 
 return new class extends Migration
 {
-    public function up(): void
-    {
+   public function up(): void
+{
+    if (!Schema::hasColumn('meal_logs', 'meal_type')) {
         Schema::table('meal_logs', function (Blueprint $table) {
             $table->enum('meal_type', [
                 'breakfast',
@@ -18,11 +19,14 @@ return new class extends Migration
             ])->default('lunch')->after('quantity');
         });
     }
+}
 
-    public function down(): void
-    {
+   public function down(): void
+{
+    if (Schema::hasColumn('meal_logs', 'meal_type')) {
         Schema::table('meal_logs', function (Blueprint $table) {
             $table->dropColumn('meal_type');
         });
     }
+}
 };

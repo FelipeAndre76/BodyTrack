@@ -27,12 +27,16 @@
         <i class="bi bi-droplet-half"></i>
         Água
     </a>
-
-    <a href="#" class="menu-link">
-        <i class="bi bi-activity"></i>
-        Treinos
-    </a>
-
+    <a href="{{ route('workouts.index') }}"
+   class="menu-link {{ request()->routeIs('workouts.index') ? 'active' : '' }}">
+    <i class="bi bi-activity"></i>
+    Treinos
+</a>
+    <a href="{{ route('workouts.history') }}"
+   class="menu-link {{ request()->routeIs('workouts.history') ? 'active' : '' }}">
+    <i class="bi bi-clock-history"></i>
+    Histórico
+</a>
     <a href="#" class="menu-link">
         <i class="bi bi-graph-up-arrow"></i>
         Evolução

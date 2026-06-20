@@ -11,20 +11,23 @@ return new class extends Migration
      */
 public function up(): void
 {
-    Schema::create('meals', function (Blueprint $table) {
+    Schema::create('meal_logs', function (Blueprint $table) {
         $table->id();
 
         $table->foreignId('user_id')
             ->constrained()
             ->onDelete('cascade');
 
-        $table->enum('meal_type', [
-            'breakfast',
-            'lunch',
-            'snack',
-            'dinner',
-            'supper'
-        ]);
+        $table->foreignId('food_id')
+            ->constrained('foods')
+            ->onDelete('cascade');
+
+        $table->decimal('quantity', 8, 2);
+
+        $table->decimal('protein', 8, 2)->default(0);
+        $table->decimal('carbs', 8, 2)->default(0);
+        $table->decimal('fat', 8, 2)->default(0);
+        $table->decimal('calories', 8, 2)->default(0);
 
         $table->date('meal_date');
 
@@ -36,6 +39,6 @@ public function up(): void
 
 public function down(): void
 {
-    Schema::dropIfExists('meals');
+    Schema::dropIfExists('meal_logs');
 }
 };
