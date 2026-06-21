@@ -58,7 +58,16 @@
                     {{ session('status') }}
                 </div>
             @endif
+                @if(session('blocked'))
 
+<div class="alert alert-danger mb-4">
+    <i class="bi bi-shield-lock me-2"></i>
+
+    {{ session('blocked') }}
+</div>
+
+@endif
+<br>
             <form method="POST" action="{{ route('login') }}">
                 @csrf
 

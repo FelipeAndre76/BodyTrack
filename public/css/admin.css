@@ -1,0 +1,1228 @@
+/* =========================================================
+   BASE
+========================================================= */
+body {
+    margin: 0;
+    background: #050705;
+    color: #fff;
+    font-family: Arial, sans-serif;
+}
+.admin-layout {
+    display: flex;
+    min-height: 100vh;
+    background:
+        radial-gradient(circle at top left, rgba(163, 230, 53, .10), transparent 35%),
+        #050705;
+}
+/* =========================================================
+   SIDEBAR ADMIN
+========================================================= */
+.admin-sidebar {
+    width: 270px;
+    height: 100vh;
+    position: fixed;
+    left: 0;
+    top: 0;
+    background: #081008;
+    border-right: 1px solid rgba(163, 230, 53, .25);
+    padding: 32px 22px;
+    overflow-y: auto;
+    overflow-x: hidden;
+}
+.admin-sidebar .brand-logo img {
+    width: 170px;
+    height: auto;
+}
+.admin-sidebar .menu-link {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    color: #e5e7eb;
+    text-decoration: none;
+    padding: 14px 16px;
+    border-radius: 16px;
+    font-weight: 700;
+    margin-bottom: 8px;
+}
+.admin-sidebar .menu-link:hover,
+.admin-sidebar .menu-link.active {
+    background: #a3e635;
+    color: #050705;
+}
+.admin-sidebar .logout-btn {
+    width: 100%;
+    border: none;
+    text-align: left;
+    background: transparent;
+}
+/* =========================================================
+   CONTENT
+========================================================= */
+.admin-content {
+    margin-left: 270px;
+    width: calc(100% - 270px);
+    padding: 42px;
+}
+.admin-title {
+    font-size: 42px;
+    font-weight: 900;
+    margin-bottom: 34px;
+}
+/* =========================================================
+   DASHBOARD STATS
+========================================================= */
+.admin-stats-grid {
+    display: grid;
+    grid-template-columns: repeat(5, 1fr);
+    gap: 18px;
+}
+.admin-stat-card {
+    background: #081008;
+    border: 1px solid rgba(163, 230, 53, .18);
+    border-radius: 20px;
+    padding: 22px;
+}
+.admin-stat-card span {
+    color: #9ca3af;
+    font-weight: 800;
+    font-size: 13px;
+}
+.admin-stat-card strong {
+    display: block;
+    color: #a3e635;
+    font-size: 34px;
+    font-weight: 900;
+    margin-top: 8px;
+}
+.admin-stat-card.warning strong {
+    color: #facc15;
+}
+/* =========================================================
+   GRID PADRÃO ADMIN
+========================================================= */
+.admin-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 18px;
+}
+.admin-history-card {
+    position: relative;
+    text-decoration: none;
+    overflow: hidden;
+    background: #050705;
+    border: 1px solid rgba(163, 230, 53, .22);
+    border-radius: 24px;
+    min-height: 0;
+    transition: .3s;
+}
+.admin-history-card:hover {
+    transform: translateY(-4px);
+    border-color: #a3e635;
+    box-shadow: 0 0 28px rgba(163, 230, 53, .14);
+}
+.admin-card-number {
+    position: absolute;
+    top: 14px;
+    left: 50%;
+    transform: translateX(-50%);
+    background: #a3e635;
+    color: #050705;
+    font-weight: 900;
+    font-size: 12px;
+    padding: 4px 12px;
+    border-radius: 999px;
+    z-index: 3;
+}
+/* =========================================================
+   CARD IMAGE / FOTO ESTILO E-COMMERCE
+========================================================= */
+.admin-card-image,
+.photo-preview-box,
+.exercise-admin-image {
+    width: 100%;
+    height: 260px;
+    background: #f5f5f5;
+    overflow: hidden;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+.admin-card-image i,
+.exercise-admin-image i,
+.photo-placeholder {
+    color: #a3e635;
+    font-size: 58px;
+    background: rgba(163, 230, 53, .12);
+    border: 1px solid rgba(163, 230, 53, .25);
+    border-radius: 22px;
+    padding: 22px;
+}
+.photo-preview-img,
+.exercise-admin-image img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    object-position: center center;
+    transition: transform .25s ease;
+}
+.photo-card:hover .photo-preview-img,
+.exercise-admin-card:hover .exercise-admin-image img {
+    transform: scale(1.04);
+}
+.open-photo-modal {
+    cursor: zoom-in;
+}
+/* =========================================================
+   CARD BODY
+========================================================= */
+.admin-card-body {
+    padding: 18px;
+}
+.admin-card-body span {
+    color: #a3e635;
+    font-size: 13px;
+    font-weight: 800;
+}
+.admin-card-body h3 {
+    color: #fff;
+    font-size: 20px;
+    font-weight: 900;
+    margin: 8px 0 14px;
+}
+.admin-card-body p {
+    color: #9ca3af;
+    margin: 0;
+}
+/* =========================================================
+   BOTÕES ADMIN
+========================================================= */
+.btn-admin {
+    background: #a3e635;
+    color: #050705;
+    padding: 12px 18px;
+    border-radius: 14px;
+    border: none;
+    text-decoration: none;
+    font-weight: 800;
+    font-size: 14px;
+    min-height: 42px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    cursor: pointer;
+}
+.btn-admin:hover {
+    background: #bef264;
+    color: #050705;
+}
+.btn-admin-secondary {
+    background: rgba(163, 230, 53, .10);
+    color: #a3e635;
+    padding: 12px 18px;
+    border: 1px solid rgba(163, 230, 53, .25);
+    border-radius: 14px;
+    text-decoration: none;
+    font-weight: 800;
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+}
+.btn-edit,
+.btn-delete {
+    width: 42px;
+    height: 42px;
+    border: none;
+    border-radius: 12px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+}
+.btn-edit {
+    background: #a3e635;
+    color: #050705;
+}
+.btn-delete {
+    background: #dc2626;
+    color: #fff;
+}
+/* =========================================================
+   BOTÃO REMOVER FOTO
+========================================================= */
+.btn-delete-photo {
+    width: 100%;
+    border: 1px solid rgba(239, 68, 68, .35);
+    background: rgba(239, 68, 68, .08);
+    color: #ef4444;
+    border-radius: 14px;
+    padding: 12px;
+    font-weight: 800;
+    cursor: pointer;
+}
+.btn-delete-photo:hover {
+    background: #ef4444;
+    color: #fff;
+}
+/* =========================================================
+   EXERCÍCIOS / CATEGORIAS
+========================================================= */
+.exercise-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+    gap: 24px;
+}
+.exercise-admin-card {
+    background: #081008;
+    border: 1px solid rgba(163, 230, 53, .15);
+    border-radius: 20px;
+    overflow: hidden;
+    transition: .3s;
+}
+.exercise-admin-card:hover {
+    border-color: #a3e635;
+    box-shadow: 0 0 24px rgba(163, 230, 53, .12);
+    transform: translateY(-3px);
+}
+.exercise-admin-body {
+    padding: 18px;
+}
+.exercise-category {
+    display: inline-block;
+    color: #a3e635;
+    font-size: 12px;
+    font-weight: 800;
+    background: rgba(163, 230, 53, .10);
+    border: 1px solid rgba(163, 230, 53, .18);
+    border-radius: 999px;
+    padding: 4px 10px;
+}
+.exercise-admin-body h4 {
+    margin: 10px 0 6px;
+    color: #fff;
+}
+.exercise-admin-body small {
+    color: #9ca3af;
+}
+.exercise-actions {
+    display: flex;
+    gap: 10px;
+    margin-top: 18px;
+}
+/* =========================================================
+   FORMULÁRIOS
+========================================================= */
+.admin-form-card {
+    background: #081008;
+    border: 1px solid rgba(163, 230, 53, .18);
+    border-radius: 24px;
+    padding: 28px;
+}
+.admin-label {
+    display: block;
+    color: #cbd5c0;
+    font-weight: 800;
+    margin-bottom: 8px;
+}
+.admin-input {
+    width: 100%;
+    background: #050705;
+    border: 1px solid rgba(163, 230, 53, .25);
+    color: #fff;
+    border-radius: 14px;
+    padding: 14px 16px;
+    outline: none;
+}
+.admin-input:focus {
+    border-color: #a3e635;
+    box-shadow: 0 0 0 3px rgba(163, 230, 53, .12);
+}
+/* =========================================================
+   PREVIEW DE IMAGEM FORMULÁRIO
+========================================================= */
+.image-preview-container {
+    width: 100%;
+    min-height: 220px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border: 1px dashed rgba(163, 230, 53, .25);
+    border-radius: 18px;
+    background: #050705;
+    margin-top: 15px;
+}
+#imagePreview {
+    max-width: 220px;
+    max-height: 220px;
+    border-radius: 16px;
+    display: none;
+    object-fit: cover;
+}
+/* =========================================================
+   PREVIEW DE ÍCONE CATEGORIA
+========================================================= */
+.admin-icon-preview {
+    width: 120px;
+    height: 120px;
+    border-radius: 24px;
+    background: rgba(163, 230, 53, .10);
+    border: 1px solid rgba(163, 230, 53, .25);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: #a3e635;
+}
+.admin-icon-preview i {
+    font-size: 52px;
+}
+/* =========================================================
+   DASHBOARD - ÚLTIMOS CADASTROS
+========================================================= */
+.admin-latest-item {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    background: #050705;
+    border: 1px solid rgba(163, 230, 53, .14);
+    border-radius: 16px;
+    padding: 14px 16px;
+    margin-bottom: 12px;
+}
+.admin-latest-item strong {
+    display: block;
+    color: #fff;
+}
+.admin-latest-item span {
+    color: #9ca3af;
+    font-size: 13px;
+}
+/* =========================================================
+   PAGINAÇÃO
+========================================================= */
+.pagination {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 8px;
+    margin-top: 30px;
+    flex-wrap: wrap;
+}
+.pagination .page-item {
+    list-style: none;
+}
+.pagination .page-link {
+    width: 42px;
+    height: 42px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 12px;
+    background: #f3f4f6;
+    color: #2563eb;
+    border: none;
+    font-weight: 700;
+    transition: .2s;
+}
+.pagination svg {
+    width: 16px !important;
+    height: 16px !important;
+}
+.pagination .page-item.active .page-link,
+.pagination .active span {
+    background: #a3e635;
+    color: #050705;
+    font-weight: 800;
+}
+.pagination .page-link:hover,
+.pagination a:hover {
+    background: #d9f99d !important;
+    color: #050705 !important;
+    border-color: #a3e635 !important;
+}
+.pagination .page-item.disabled .page-link {
+    opacity: .4;
+    cursor: not-allowed;
+}
+/* =========================================================
+   FOTOS DOS APARELHOS - TOOLBAR
+========================================================= */
+.photo-toolbar {
+    display: grid;
+    grid-template-columns: 1fr auto;
+    gap: 20px;
+    align-items: stretch;
+}
+.photo-progress-card {
+    background: #081008;
+    border: 1px solid rgba(163, 230, 53, .18);
+    border-radius: 20px;
+    padding: 18px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
+.photo-progress-card span {
+    color: #9ca3af;
+    font-size: 13px;
+    font-weight: 800;
+}
+.photo-progress-card strong {
+    display: block;
+    color: #a3e635;
+    font-size: 34px;
+    font-weight: 900;
+    margin: 6px 0;
+}
+.photo-progress-card small {
+    color: #cbd5c0;
+}
+.photo-progress-bar {
+    width: 100%;
+    height: 10px;
+    background: rgba(163, 230, 53, .10);
+    border-radius: 999px;
+    overflow: hidden;
+    margin: 10px 0;
+}
+.photo-progress-bar div {
+    height: 100%;
+    background: #a3e635;
+    border-radius: 999px;
+    transition: width .3s ease;
+}
+.photo-filter-group {
+    display: flex;
+    gap: 12px;
+    align-items: stretch;
+}
+.photo-filter {
+    min-width: 130px;
+    background: #081008;
+    border: 1px solid rgba(163, 230, 53, .18);
+    border-radius: 18px;
+    color: #fff;
+    padding: 16px;
+    text-decoration: none;
+    font-weight: 800;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
+.photo-filter span {
+    display: block;
+    color: #a3e635;
+    font-size: 22px;
+    margin-top: 4px;
+}
+.photo-filter.active,
+.photo-filter:hover {
+    background: #a3e635;
+    color: #050705;
+}
+.photo-filter.active span,
+.photo-filter:hover span {
+    color: #050705;
+}
+/* =========================================================
+   LAZY IMAGE
+========================================================= */
+.lazy-image {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    opacity: 0;
+    transition: opacity .35s ease;
+}
+.lazy-image.loaded {
+    opacity: 1;
+}
+/* =========================================================
+   RESPONSIVO
+========================================================= */
+@media (max-width: 1400px) {
+    .admin-grid {
+        grid-template-columns: repeat(3, 1fr);
+    }
+}
+@media (max-width: 1200px) {
+    .admin-stats-grid {
+        grid-template-columns: repeat(3, 1fr);
+    }
+    .admin-grid {
+        grid-template-columns: repeat(2, 1fr);
+    }
+    .photo-toolbar {
+        grid-template-columns: 1fr;
+    }
+    .photo-filter-group {
+        flex-wrap: wrap;
+    }
+}
+@media (max-width: 768px) {
+    .admin-layout {
+        display: block;
+    }
+    .admin-sidebar {
+        width: 100%;
+        height: auto;
+        position: relative;
+    }
+    .admin-content {
+        margin-left: 0;
+        width: 100%;
+        padding: 24px;
+    }
+    .admin-title {
+        font-size: 32px;
+    }
+    .admin-stats-grid,
+    .admin-grid {
+        grid-template-columns: 1fr;
+    }
+    .admin-card-image,
+    .photo-preview-box,
+    .exercise-admin-image {
+        height: 230px;
+    }
+}
+/* =========================================================
+   FOTOS DOS APARELHOS - DRAG & DROP
+   Usado somente na tela admin/photos
+========================================================= */
+.photo-drop-zone {
+    width: 100%;
+    min-height: 92px;
+    border: 1px dashed rgba(163, 230, 53, .35);
+    border-radius: 16px;
+    background: rgba(163, 230, 53, .06);
+    color: #cbd5c0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 14px;
+    margin-bottom: 12px;
+    text-align: center;
+    font-size: 13px;
+    font-weight: 700;
+    cursor: pointer;
+    transition: .25s;
+}
+.photo-drop-zone i {
+    color: #a3e635;
+    font-size: 24px;
+    margin-right: 8px;
+}
+.photo-drop-zone:hover {
+    border-color: #a3e635;
+    background: rgba(163, 230, 53, .10);
+}
+.photo-drop-zone.drag-over {
+    border-color: #a3e635;
+    background: rgba(163, 230, 53, .18);
+    transform: scale(1.02);
+}
+.photo-drop-zone.has-file {
+    border-style: solid;
+    background: rgba(163, 230, 53, .12);
+    color: #fff;
+}
+/* Esconde o input real, mantendo controle via JS */
+.photo-input-hidden {
+    display: none;
+}
+/* =========================================================
+   FOTOS DOS APARELHOS - BUSCA INSTANTÂNEA
+   Usado somente na tela admin/photos
+========================================================= */
+.photo-search-wrapper {
+    margin-bottom: 24px;
+}
+.photo-search-box {
+    position: relative;
+    width: 100%;
+}
+.photo-search-box i {
+    position: absolute;
+    left: 16px;
+    top: 50%;
+    transform: translateY(-50%);
+    color: #a3e635;
+    font-size: 18px;
+}
+.photo-search-input {
+    width: 100%;
+    background: #081008;
+    border: 1px solid rgba(163, 230, 53, .22);
+    color: #fff;
+    border-radius: 18px;
+    padding: 16px 18px 16px 48px;
+    font-weight: 700;
+    outline: none;
+}
+.photo-search-input:focus {
+    border-color: #a3e635;
+    box-shadow: 0 0 0 3px rgba(163, 230, 53, .12);
+}
+.photo-search-input::placeholder {
+    color: #6b7280;
+}
+.photo-no-results {
+    display: none;
+    background: #081008;
+    border: 1px dashed rgba(163, 230, 53, .25);
+    border-radius: 20px;
+    padding: 28px;
+    margin-top: 20px;
+    text-align: center;
+    color: #9ca3af;
+    font-weight: 700;
+}
+.photo-no-results.active {
+    display: block;
+}
+/* =========================================================
+   DASHBOARD ADMIN REAL
+   Cards, progresso e listas rápidas da central administrativa
+========================================================= */
+.admin-dashboard-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 18px;
+    margin-bottom: 28px;
+}
+.admin-dashboard-card {
+    background: #081008;
+    border: 1px solid rgba(163, 230, 53, .18);
+    border-radius: 20px;
+    padding: 20px;
+}
+.admin-dashboard-card span {
+    color: #9ca3af;
+    font-size: 13px;
+    font-weight: 800;
+}
+.admin-dashboard-card strong {
+    display: block;
+    color: #a3e635;
+    font-size: 34px;
+    font-weight: 900;
+    margin-top: 8px;
+}
+.admin-dashboard-card.warning strong {
+    color: #facc15;
+}
+.admin-dashboard-panel {
+    background: #081008;
+    border: 1px solid rgba(163, 230, 53, .18);
+    border-radius: 24px;
+    padding: 24px;
+}
+.admin-dashboard-panel h3 {
+    color: #fff;
+    font-weight: 900;
+    margin-bottom: 18px;
+}
+.admin-progress-row {
+    margin-bottom: 28px;
+}
+.admin-progress-bar {
+    width: 100%;
+    height: 12px;
+    background: rgba(163, 230, 53, .10);
+    border-radius: 999px;
+    overflow: hidden;
+    margin-top: 10px;
+}
+.admin-progress-bar div {
+    height: 100%;
+    background: #a3e635;
+    border-radius: 999px;
+}
+.admin-mini-list {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+}
+.admin-mini-item {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 14px;
+    background: #050705;
+    border: 1px solid rgba(163, 230, 53, .14);
+    border-radius: 16px;
+    padding: 14px 16px;
+}
+.admin-mini-item strong {
+    color: #fff;
+    display: block;
+}
+.admin-mini-item span {
+    color: #9ca3af;
+    font-size: 13px;
+}
+.admin-mini-badge {
+    background: rgba(163, 230, 53, .12);
+    border: 1px solid rgba(163, 230, 53, .22);
+    color: #a3e635;
+    border-radius: 999px;
+    padding: 5px 10px;
+    font-size: 12px;
+    font-weight: 800;
+    white-space: nowrap;
+}
+@media (max-width: 1200px) {
+    .admin-dashboard-grid {
+        grid-template-columns: repeat(2, 1fr);
+    }
+}
+@media (max-width: 768px) {
+    .admin-dashboard-grid {
+        grid-template-columns: 1fr;
+    }
+}
+/* =========================================================
+   ADMIN - USUÁRIOS
+========================================================= */
+.admin-users-table {
+    width: 100%;
+    border-collapse: collapse;
+}
+.admin-users-table th {
+    background: #081008;
+    padding: 16px;
+    text-align: left;
+    color: #a3e635;
+    font-size: 13px;
+    font-weight: 800;
+}
+.admin-users-table td {
+    padding: 18px 16px;
+    border-top: 1px solid rgba(163,230,53,.12);
+}
+.admin-user-admin {
+    background: rgba(163,230,53,.12);
+    color: #a3e635;
+    padding: 6px 12px;
+    border-radius: 999px;
+    font-size: 12px;
+    font-weight: 800;
+}
+.admin-user-common {
+    background: rgba(107,114,128,.18);
+    color: #d1d5db;
+    padding: 6px 12px;
+    border-radius: 999px;
+    font-size: 12px;
+    font-weight: 800;
+}
+.admin-user-actions {
+    display: flex;
+    gap: 8px;
+}
+.btn-admin-mini {
+    border: none;
+    padding: 8px 12px;
+    border-radius: 10px;
+    cursor: pointer;
+    font-weight: 700;
+}
+.btn-admin-mini.green {
+    background: #a3e635;
+    color: #050705;
+}
+.btn-admin-mini.red {
+    background: #dc2626;
+    color: #fff;
+}
+/* =========================================================
+   ADMIN - USUÁRIOS (CARDS)
+========================================================= */
+.admin-users-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+    gap: 20px;
+}
+.admin-user-card {
+    background: #081008;
+    border: 1px solid rgba(163,230,53,.15);
+    border-radius: 22px;
+    padding: 24px;
+    transition: .25s;
+}
+.admin-user-card:hover {
+    transform: translateY(-3px);
+    border-color: rgba(163,230,53,.35);
+}
+.admin-user-avatar {
+    width: 70px;
+    height: 70px;
+    border-radius: 50%;
+    background: rgba(163,230,53,.12);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-bottom: 18px;
+}
+.admin-user-avatar i {
+    font-size: 30px;
+    color: #a3e635;
+}
+.admin-user-name {
+    font-size: 22px;
+    font-weight: 800;
+    color: #fff;
+}
+.admin-user-email {
+    color: #9ca3af;
+    font-size: 14px;
+    margin-top: 4px;
+}
+.admin-user-role {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    margin-top: 16px;
+    padding: 8px 14px;
+    border-radius: 999px;
+    font-size: 12px;
+    font-weight: 800;
+}
+.admin-user-role.admin {
+    background: rgba(163,230,53,.12);
+    color: #a3e635;
+}
+.admin-user-role.user {
+    background: rgba(107,114,128,.15);
+    color: #d1d5db;
+}
+.admin-user-actions {
+    display: flex;
+    gap: 10px;
+    margin-top: 22px;
+}
+.admin-user-actions form {
+    flex: 1;
+}
+/* =========================================================
+   ADMIN - USUÁRIOS - BUSCA INSTANTÂNEA
+   Campo de busca usado na tela admin/users
+========================================================= */
+.admin-user-search-wrapper {
+    margin-bottom: 24px;
+}
+.admin-user-search-box {
+    position: relative;
+    width: 100%;
+}
+.admin-user-search-box i {
+    position: absolute;
+    left: 16px;
+    top: 50%;
+    transform: translateY(-50%);
+    color: #a3e635;
+    font-size: 18px;
+}
+.admin-user-search-input {
+    width: 100%;
+    background: #081008;
+    border: 1px solid rgba(163, 230, 53, .22);
+    color: #fff;
+    border-radius: 18px;
+    padding: 16px 18px 16px 48px;
+    font-weight: 700;
+    outline: none;
+}
+.admin-user-search-input:focus {
+    border-color: #a3e635;
+    box-shadow: 0 0 0 3px rgba(163, 230, 53, .12);
+}
+.admin-user-search-input::placeholder {
+    color: #6b7280;
+}
+.admin-user-no-results {
+    display: none;
+    background: #081008;
+    border: 1px dashed rgba(163, 230, 53, .25);
+    border-radius: 20px;
+    padding: 28px;
+    margin-top: 20px;
+    text-align: center;
+    color: #9ca3af;
+    font-weight: 700;
+}
+.admin-user-no-results.active {
+    display: block;
+}
+
+/* =========================================================
+   ADMIN - USUÁRIOS - CARDS ESTATÍSTICOS
+   Indicadores rápidos da tela de usuários
+========================================================= */
+
+.admin-user-stats-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 18px;
+    margin-bottom: 24px;
+}
+
+.admin-user-stat-card {
+    background: #081008;
+    border: 1px solid rgba(163, 230, 53, .18);
+    border-radius: 20px;
+    padding: 22px;
+}
+
+.admin-user-stat-card span {
+    color: #9ca3af;
+    font-size: 13px;
+    font-weight: 800;
+}
+
+.admin-user-stat-card strong {
+    display: block;
+    color: #a3e635;
+    font-size: 34px;
+    font-weight: 900;
+    margin-top: 8px;
+}
+
+.admin-user-stat-card.admin strong {
+    color: #a3e635;
+}
+
+.admin-user-stat-card.common strong {
+    color: #d1d5db;
+}
+
+@media (max-width: 768px) {
+    .admin-user-stats-grid {
+        grid-template-columns: 1fr;
+    }
+}
+
+/* =========================================================
+   ADMIN - STATUS USUÁRIO
+========================================================= */
+
+.admin-user-status {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    margin-top: 10px;
+    padding: 8px 14px;
+    border-radius: 999px;
+    font-size: 12px;
+    font-weight: 800;
+}
+
+.admin-user-status.active {
+    background: rgba(34,197,94,.12);
+    color: #22c55e;
+}
+
+.admin-user-status.inactive {
+    background: rgba(239,68,68,.12);
+    color: #ef4444;
+}
+
+.btn-admin-mini.orange {
+    background: #f59e0b;
+    color: #fff;
+}
+/* =========================================================
+   ADMIN - BADGES DE USUÁRIO
+========================================================= */
+
+.admin-user-badges{
+    display:flex;
+    flex-wrap:wrap;
+    gap:10px;
+
+    margin-top:16px;
+    margin-bottom:20px;
+}
+
+.admin-user-status,
+.admin-user-role{
+    display:flex;
+    align-items:center;
+    gap:6px;
+
+    padding:8px 14px;
+
+    border-radius:999px;
+
+    font-size:12px;
+    font-weight:800;
+}
+/* =========================================================
+   ADMIN - NOME DO USUÁRIO
+========================================================= */
+
+.admin-user-name{
+    font-size: 20px;
+    font-weight:800;
+
+    min-height:64px;
+
+    display:-webkit-box;
+    -webkit-line-clamp:2;
+    -webkit-box-orient:vertical;
+text-transform: uppercase;
+    overflow:hidden;
+}
+
+/* =========================================================
+   ADMIN - LOGS ADMINISTRATIVOS
+========================================================= */
+
+.admin-log-search-wrapper {
+    margin-bottom: 24px;
+}
+
+.admin-log-search-box {
+    position: relative;
+    width: 100%;
+}
+
+.admin-log-search-box i {
+    position: absolute;
+    left: 16px;
+    top: 50%;
+    transform: translateY(-50%);
+
+    color: #a3e635;
+    font-size: 18px;
+}
+
+.admin-log-search-input {
+    width: 100%;
+
+    background: #081008;
+    border: 1px solid rgba(163, 230, 53, .22);
+    color: #fff;
+
+    border-radius: 18px;
+    padding: 16px 18px 16px 48px;
+
+    font-weight: 700;
+    outline: none;
+}
+
+.admin-log-search-input:focus {
+    border-color: #a3e635;
+    box-shadow: 0 0 0 3px rgba(163, 230, 53, .12);
+}
+
+.admin-log-no-results {
+    display: none;
+
+    background: #081008;
+    border: 1px dashed rgba(163, 230, 53, .25);
+    border-radius: 20px;
+
+    padding: 28px;
+    margin-top: 20px;
+
+    text-align: center;
+    color: #9ca3af;
+    font-weight: 700;
+}
+
+.admin-log-no-results.active {
+    display: block;
+}
+
+.admin-log-list {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+}
+
+.admin-log-card {
+    display: flex;
+    gap: 18px;
+
+    background: #081008;
+    border: 1px solid rgba(163, 230, 53, .16);
+    border-radius: 22px;
+
+    padding: 20px;
+
+    transition: .25s;
+}
+
+.admin-log-card:hover {
+    border-color: rgba(163, 230, 53, .35);
+    transform: translateY(-2px);
+}
+
+.admin-log-icon {
+    width: 54px;
+    height: 54px;
+
+    flex-shrink: 0;
+
+    border-radius: 16px;
+
+    background: rgba(163, 230, 53, .12);
+    border: 1px solid rgba(163, 230, 53, .25);
+
+    color: #a3e635;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.admin-log-icon i {
+    font-size: 24px;
+}
+
+.admin-log-content {
+    width: 100%;
+}
+
+.admin-log-header {
+    display: flex;
+    justify-content: space-between;
+    gap: 12px;
+    flex-wrap: wrap;
+
+    margin-bottom: 8px;
+}
+
+.admin-log-header strong {
+    color: #fff;
+    font-size: 16px;
+}
+
+.admin-log-header span {
+    color: #9ca3af;
+    font-size: 13px;
+    font-weight: 700;
+}
+
+.admin-log-action {
+    display: inline-block;
+
+    color: #a3e635;
+    background: rgba(163, 230, 53, .10);
+    border: 1px solid rgba(163, 230, 53, .18);
+
+    padding: 5px 10px;
+    border-radius: 999px;
+
+    font-size: 12px;
+    font-weight: 900;
+
+    margin-bottom: 10px;
+}
+
+.admin-log-content p {
+    color: #cbd5c0;
+    margin: 0;
+    line-height: 1.5;
+}
