@@ -4,46 +4,27 @@
 ![PHP](https://img.shields.io/badge/PHP-8.5-blue)
 ![Bootstrap](https://img.shields.io/badge/Bootstrap-5-purple)
 ![Status](https://img.shields.io/badge/Status-Em%20Desenvolvimento-green)
-![Version](https://img.shields.io/badge/Version-v0.1.0-orange)
+![Version](https://img.shields.io/badge/Version-v0.4.0-orange)
 
 ---
 
 # 📌 Sobre o Projeto
 
-O **BodyTrack** é uma aplicação web desenvolvida para acompanhamento de evolução corporal, saúde e desempenho físico.
+O **BodyTrack** é uma plataforma web para acompanhamento de evolução corporal, saúde, nutrição e treinos.
 
-O objetivo do sistema é centralizar informações importantes da jornada do usuário em um único dashboard inteligente.
+Além das funcionalidades voltadas ao usuário, o projeto possui um painel administrativo completo para gerenciamento do sistema.
 
-O projeto está sendo desenvolvido com foco em:
+O projeto está sendo desenvolvido para:
 
-* Aprendizado avançado de Laravel
+* Aprimoramento em Laravel
 * Desenvolvimento Full Stack
-* Arquitetura de aplicações web
-* Criação de um produto real para portfólio
+* Arquitetura de Sistemas Web
+* Construção de portfólio profissional
+* Evolução contínua de produto
 
 ---
 
-# 📸 Screenshots
-
-## Landing Page
-
-![Landing Page](docs/images/home.png)
-
-## Dashboard
-
-![Dashboard](docs/images/dashboard.png)
-
-## Controle de Água
-
-![Água](docs/images/water.png)
-
-## Configurações
-
-![Configurações](docs/images/settings.png)
-
----
-
-# 🚀 Funcionalidades Implementadas (v0.1.0)
+# 🚀 Funcionalidades Implementadas
 
 ## 🔐 Autenticação
 
@@ -55,17 +36,15 @@ O projeto está sendo desenvolvido com foco em:
 
 ---
 
-## 📊 Dashboard Inteligente
-
-Recursos atuais:
+## 📊 Dashboard do Usuário
 
 * Peso atual
 * Peso perdido
-* Meta restante
-* IMC atual
-* Barra de progresso corporal
-* Card motivacional
+* Peso objetivo
+* IMC
+* Progresso corporal
 * Gráficos interativos
+* Cards motivacionais
 
 ---
 
@@ -77,51 +56,141 @@ Cadastro de:
 * Peso inicial
 * Peso atual
 * Peso objetivo
-* Objetivo corporal
 
 Objetivos:
 
 * Emagrecimento
-* Ganho de massa muscular
+* Ganho de massa
 * Recomposição corporal
 
 ---
 
 ## 💧 Controle de Água
 
-Funcionalidades:
-
 * Registro rápido
-* Meta automática baseada no peso corporal
-* Histórico de consumo
-* Barra de progresso dinâmica
-* Exclusão sem recarregar a página
+* Meta automática
+* Histórico diário
 * Atualização em tempo real
-* SweetAlert2 para confirmações
+* Exclusão dinâmica
+* SweetAlert2
 
 ---
 
-## ⚙️ Configurações
+## 🍽 Nutrição
 
-Área do usuário contendo:
+* Cadastro de refeições
+* Busca de alimentos
+* Histórico alimentar
 
-* Dados da conta
-* Metas corporais
-* Preferências
-* Estrutura para futuras integrações
+---
+
+## 🏋️ Treinos
+
+* Cadastro de treinos
+* Histórico
+* Organização por exercícios
+
+---
+
+# 👨‍💼 Painel Administrativo
+
+## Dashboard Administrativo
+
+* Total de usuários
+* Total de administradores
+* Total de exercícios
+* Total de categorias
+* Total de treinos
+* Exercícios com foto
+* Exercícios sem foto
+* Barra de progresso de imagens
+* Últimas atividades administrativas
+
+---
+
+## Exercícios
+
+* Cadastro
+* Edição
+* Exclusão
+* Busca instantânea
+
+---
+
+## Categorias
+
+* Cadastro
+* Edição
+* Exclusão
+* Exclusão em cascata dos exercícios
+
+---
+
+## Fotos dos Exercícios
+
+* Upload individual
+* Upload AJAX
+* Remoção AJAX
+* Sem recarregamento da página
+* Visualização ampliada
+* Barra de progresso dinâmica
+* Filtro:
+
+  * Todos
+  * Com Foto
+  * Sem Foto
+
+---
+
+## Usuários
+
+* Listagem
+* Busca instantânea
+* Tornar administrador
+* Remover administrador
+* Bloquear usuário
+* Desbloquear usuário
+* Exclusão de usuário
+* Estatísticas administrativas
+
+---
+
+## Segurança
+
+* Middleware Admin
+* Middleware Usuário Ativo
+* Senha Mestre Administrativa
+* Proteção contra autoexclusão
+* Proteção contra autobloqueio
+* SweetAlert de confirmação
+
+---
+
+## Logs Administrativos
+
+Registro automático de:
+
+* Alteração de administradores
+* Bloqueio de usuários
+* Exclusão de usuários
+
+Recursos:
+
+* Busca instantânea
+* Histórico completo
+* Exportação CSV
 
 ---
 
 # 🎨 Interface
 
-Identidade visual própria:
-
 * Tema Dark
 * Verde Lime
-* Dashboard Premium
-* Sidebar personalizada
-* Cards modernos
-* Layout responsivo
+* Layout Responsivo
+* Sidebar Premium
+* Dashboard Moderno
+* Cards Interativos
+* SweetAlert2
 
 ---
 
@@ -162,6 +231,8 @@ php artisan key:generate
 
 php artisan migrate
 
+php artisan storage:link
+
 php artisan serve
 ```
 
@@ -176,7 +247,16 @@ BodyTrack
 ├── Perfil Corporal
 ├── Pesagens
 ├── Água
-├── Configurações
+├── Nutrição
+├── Treinos
+
+├── Admin
+│   ├── Dashboard
+│   ├── Exercícios
+│   ├── Categorias
+│   ├── Fotos
+│   ├── Usuários
+│   └── Logs
 
 ├── Login
 ├── Registro
@@ -185,71 +265,33 @@ BodyTrack
 
 ---
 
-# 🎯 Objetivo
+# 🧠 Roadmap
 
-O BodyTrack foi criado para centralizar informações de saúde, evolução corporal e hábitos diários em uma única plataforma.
+## v0.5.0
 
-Além do uso pessoal, o projeto funciona como laboratório de estudos para aprofundamento em Laravel, arquitetura web, UX/UI e desenvolvimento Full Stack.
+* [ ] Logs completos de Exercícios
+* [ ] Logs completos de Categorias
+* [ ] Logs completos de Fotos
+* [ ] Exportação PDF
 
----
+## v0.6.0
 
-# 🧠 Funcionalidades Futuras
+* [ ] Upload em Massa de Fotos
+* [ ] Dashboard Executivo
+* [ ] Configurações Administrativas
 
-## 🥩 Nutrição
+## v0.7.0
 
-* Controle de proteína diária
-* Controle alimentar
-* Macronutrientes
-
-## 🏋️ Treinos
-
-* Cadastro de exercícios
-* Divisão de treino
-* Histórico de evolução
-
-## 🩺 Saúde
-
-* Upload de exames laboratoriais
-* Histórico médico
-* Controle de medicamentos
-* Análise de exames
-
-## 🤖 BodyTrack AI
-
-* Interpretação de dados corporais
-* Recomendações personalizadas
-* Insights de evolução
-
----
-
-# 🗺 Roadmap
-
-## v0.1.0
-
-* [x] Autenticação
-* [x] Dashboard
-* [x] Perfil Corporal
-* [x] Controle de Peso
-* [x] Controle de Água
-* [x] Configurações
-
-## v0.2.0
-
-* [ ] Proteína
-* [ ] Nutrição
-* [ ] Treinos
-
-## v0.3.0
-
-* [ ] Exames laboratoriais
-* [ ] Medicamentos
-* [ ] Evolução por fotos
+* [ ] Exames Laboratoriais
+* [ ] Controle de Medicamentos
+* [ ] Evolução por Fotos
 
 ## v1.0.0
 
 * [ ] BodyTrack AI
-* [ ] Aplicação Mobile
-* [ ] Relatórios avançados
+* [ ] Aplicativo Mobile
+* [ ] Relatórios Avançados
+* [ ] Inteligência Artificial para Saúde e Treinos
 
 ---
 
@@ -257,4 +299,4 @@ Além do uso pessoal, o projeto funciona como laboratório de estudos para aprof
 
 **Felipe André Sousa Brito**
 
-Projeto desenvolvido para estudo, portfólio e evolução profissional utilizando Laravel e tecnologias modernas de desenvolvimento web.
+Projeto desenvolvido para estudo, portfólio e aprofundamento em Laravel, Arquitetura Web, UX/UI e Desenvolvimento Full Stack.
