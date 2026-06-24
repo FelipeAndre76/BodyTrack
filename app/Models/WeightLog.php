@@ -11,4 +11,12 @@ class WeightLog extends Model
         'weight',
         'recorded_at'
     ];
+
+    protected function casts(): array
+    {
+        return [
+            'recorded_at' => 'date',
+            'weight' => 'decimal:2',
+        ];
+    }
 }

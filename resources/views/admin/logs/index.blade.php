@@ -4,20 +4,89 @@
 
 @section('content')
 
-<div class="d-flex justify-content-between align-items-center mb-4">
+<div class="admin-premium-header">
     <div>
-        <h1 class="admin-title mb-0">Logs Administrativos</h1>
-        <small class="text-secondary">Histórico de ações realizadas no painel admin</small>
+        <span class="admin-kicker">Auditoria do sistema</span>
+        <h1>Logs Administrativos</h1>
+        <p>Acompanhe alterações críticas, gestão de usuários, fotos, exercícios e categorias.</p>
     </div>
 
-    <a href="{{ route('admin.logs.export') }}" class="btn-admin">
-        <i class="bi bi-download"></i>
-        Baixar Relatório
-    </a>
+    <div class="admin-header-actions">
+        <a href="{{ route('admin.logs.export', request()->query()) }}"
+           class="btn-admin-secondary"
+           id="csvDownloadBtn">
+            <i class="bi bi-download"></i>
+            CSV
+        </a>
+
+        <a href="{{ route('admin.logs.pdf', request()->query()) }}"
+           class="btn-admin">
+            <i class="bi bi-file-earmark-pdf"></i>
+            PDF
+        </a>
+    </div>
 </div>
 
-<div class="admin-log-search-wrapper">
-    <div class="admin-log-search-box">
+<div class="log-premium-stats mb-4">
+    <div class="log-premium-stat main">
+        <span>Total de registros</span>
+        <strong>{{ $totalLogs }}</strong>
+        <small>Histórico completo de ações administrativas</small>
+    </div>
+
+    <div class="log-premium-stat">
+        <i class="bi bi-clock-history"></i>
+        <span>Últimos 30 dias</span>
+        <strong>{{ $logsLast30Days }}</strong>
+    </div>
+
+    <div class="log-premium-stat">
+        <i class="bi bi-image"></i>
+        <span>Ações em fotos</span>
+        <strong>{{ $photoLogs }}</strong>
+    </div>
+
+    <div class="log-premium-stat warning">
+        <i class="bi bi-shield-lock"></i>
+        <span>Usuários/Admin</span>
+        <strong>{{ $userLogs }}</strong>
+    </div>
+</div>
+
+<div class="log-premium-toolbar mb-4">
+    <div class="admin-log-dropdown" id="adminLogDropdown">
+        <button type="button" class="btn-admin" id="adminLogDropdownBtn">
+            <i class="bi bi-funnel"></i>
+            Filtros
+        </button>
+
+        <div class="admin-log-dropdown-menu">
+            <div class="admin-log-dropdown-title">
+                Filtrar por ação
+            </div>
+
+            <div class="admin-log-dropdown-grid">
+                @foreach($availableActions as $action => $label)
+                    <label class="admin-log-dropdown-check">
+                        <input type="checkbox"
+                               class="admin-log-action-checkbox"
+                               value="{{ $action }}"
+                               {{ in_array($action, $selectedActions ?? []) ? 'checked' : '' }}>
+
+                        <span>{{ $label }}</span>
+                    </label>
+                @endforeach
+            </div>
+
+            <div class="admin-log-dropdown-footer">
+                <button type="button" class="btn-admin-secondary" id="clearLogFilters">
+                    Limpar
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <div class="log-premium-search">
         <i class="bi bi-search"></i>
 
         <input type="text"
@@ -25,65 +94,14 @@
                class="admin-log-search-input"
                placeholder="Buscar por administrador, ação ou descrição...">
     </div>
-
-    <div id="adminLogNoResults" class="admin-log-no-results">
-        Nenhum log encontrado.
-    </div>
 </div>
 
-<div class="admin-log-list">
-
-    @forelse($logs as $log)
-
-        <div class="admin-log-card"
-             data-search="{{ strtolower(($log->admin->name ?? 'admin removido') . ' ' . $log->action . ' ' . $log->description) }}">
-
-            <div class="admin-log-icon">
-                @if($log->action === 'toggle_admin')
-                    <i class="bi bi-shield-check"></i>
-                @elseif($log->action === 'toggle_status')
-                    <i class="bi bi-slash-circle"></i>
-                @elseif($log->action === 'delete_user')
-                    <i class="bi bi-trash"></i>
-                @else
-                    <i class="bi bi-list-check"></i>
-                @endif
-            </div>
-
-            <div class="admin-log-content">
-                <div class="admin-log-header">
-                    <strong>{{ $log->admin->name ?? 'Admin removido' }}</strong>
-
-                    <span>
-                        {{ $log->created_at->format('d/m/Y H:i') }}
-                    </span>
-                </div>
-
-                <div class="admin-log-action">
-                    {{ strtoupper(str_replace('_', ' ', $log->action)) }}
-                </div>
-
-                <p>
-                    {{ $log->description }}
-                </p>
-            </div>
-
-        </div>
-
-    @empty
-
-        <div class="admin-form-card">
-            <p class="text-secondary mb-0">
-                Nenhum log administrativo registrado ainda.
-            </p>
-        </div>
-
-    @endforelse
-
+<div id="adminLogNoResults" class="admin-log-no-results">
+    Nenhum log encontrado.
 </div>
 
-<div class="mt-4">
-    {{ $logs->onEachSide(1)->links('pagination::bootstrap-5') }}
+<div id="logsContainer">
+    @include('admin.logs.partials.list', ['logs' => $logs])
 </div>
 
 @endsection
@@ -91,14 +109,82 @@
 @section('scripts')
 <script>
 document.addEventListener('DOMContentLoaded', function () {
+    const dropdown = document.getElementById('adminLogDropdown');
+    const dropdownBtn = document.getElementById('adminLogDropdownBtn');
+    const clearFiltersBtn = document.getElementById('clearLogFilters');
+
     const searchInput = document.getElementById('adminLogSearchInput');
     const noResults = document.getElementById('adminLogNoResults');
+    const logsContainer = document.getElementById('logsContainer');
 
-    if (!searchInput) return;
+    const csvDownloadBtn = document.getElementById('csvDownloadBtn');
+    const pdfDownloadBtn = document.getElementById('pdfDownloadBtn');
 
-    searchInput.addEventListener('input', function () {
-        const term = this.value.toLowerCase().trim();
-        const cards = document.querySelectorAll('.admin-log-card');
+    function getSelectedActions() {
+        return Array.from(document.querySelectorAll('.admin-log-action-checkbox:checked'))
+            .map(checkbox => checkbox.value);
+    }
+
+    function buildQueryString() {
+        const params = new URLSearchParams();
+
+        getSelectedActions().forEach(action => {
+            params.append('actions[]', action);
+        });
+
+        return params.toString();
+    }
+
+    function updateDownloadLinks() {
+        const query = buildQueryString();
+
+        csvDownloadBtn.href = "{{ route('admin.logs.export') }}" + (query ? '?' + query : '');
+        pdfDownloadBtn.href = "{{ route('admin.logs.pdf') }}" + (query ? '?' + query : '');
+    }
+
+    async function loadFilteredLogs(url = null) {
+        const query = buildQueryString();
+        let requestUrl = url || "{{ route('admin.logs.filter') }}";
+
+        if (!url) {
+            requestUrl += query ? '?' + query : '';
+        }
+
+        logsContainer.style.opacity = '.45';
+
+        try {
+            const response = await fetch(requestUrl, {
+                headers: {
+                    'X-Requested-With': 'XMLHttpRequest'
+                }
+            });
+
+            const html = await response.text();
+
+            logsContainer.innerHTML = html;
+            logsContainer.style.opacity = '1';
+
+            updateDownloadLinks();
+            applySearchFilter();
+        } catch (error) {
+            logsContainer.style.opacity = '1';
+
+            Swal.fire({
+                icon: 'error',
+                title: 'Erro',
+                text: 'Não foi possível carregar os logs.',
+                background: '#050705',
+                color: '#fff',
+                confirmButtonColor: '#a3e635'
+            });
+        }
+    }
+
+    function applySearchFilter() {
+        if (!searchInput) return;
+
+        const term = searchInput.value.toLowerCase().trim();
+        const cards = logsContainer.querySelectorAll('.log-timeline-item');
 
         let visibleCount = 0;
 
@@ -114,9 +200,54 @@ document.addEventListener('DOMContentLoaded', function () {
         });
 
         if (noResults) {
-            noResults.classList.toggle('active', visibleCount === 0);
+            noResults.classList.toggle('active', visibleCount === 0 && cards.length > 0);
+        }
+    }
+
+    if (dropdownBtn) {
+        dropdownBtn.addEventListener('click', function () {
+            dropdown.classList.toggle('open');
+        });
+    }
+
+    document.addEventListener('click', function (event) {
+        if (!dropdown) return;
+
+        if (!dropdown.contains(event.target)) {
+            dropdown.classList.remove('open');
         }
     });
+
+    document.querySelectorAll('.admin-log-action-checkbox').forEach(checkbox => {
+        checkbox.addEventListener('change', function () {
+            loadFilteredLogs();
+        });
+    });
+
+    if (clearFiltersBtn) {
+        clearFiltersBtn.addEventListener('click', function () {
+            document.querySelectorAll('.admin-log-action-checkbox').forEach(checkbox => {
+                checkbox.checked = false;
+            });
+
+            loadFilteredLogs();
+        });
+    }
+
+    if (searchInput) {
+        searchInput.addEventListener('input', applySearchFilter);
+    }
+
+    document.addEventListener('click', function (event) {
+        const paginationLink = event.target.closest('#logsContainer .pagination a');
+
+        if (!paginationLink) return;
+
+        event.preventDefault();
+        loadFilteredLogs(paginationLink.href);
+    });
+
+    updateDownloadLinks();
 });
 </script>
 @endsection

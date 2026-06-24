@@ -2,6 +2,7 @@
 
 @import url('./layout/sidebar.css');
 @import url('./layout/dashboard.css');
+@import url('./layout/topbar.css');
 
 @import url('./components/cards.css');
 @import url('./components/buttons.css');
@@ -9,6 +10,24 @@
 @import url('./components/collapse.css');
 @import url('./components/progress.css');
 @import url('./components/hero.css');
+@import url('./components/tabs.css');
+@import url('./components/notification-bar.css');
+@import url('./components/notification-bell.css');
+@import url('./components/user-foods.css');
+@import url('./components/water-history.css');
+@import url('./components/workout-history.css');
+@import url('./components/weights.css');
+@import url('./components/body-profile.css');
+@import url('./components/workouts.css');
+@import url('./components/evolution.css');
+@import url('./components/smart-goals.css');
+@import url('./components/weekly-summary.css');
+@import url('./components/nutrition-history.css');
+@import url('./components/daily-meal-plan.css');
+@import url('./components/check-ins.css');
+@import url('./components/evolution-gallery.css');
+@import url('./components/social.css');
+@import url('./components/notifications-page.css');
 
 @import url('./pages/dashboard-page.css');
 @import url('./components/logo.css');

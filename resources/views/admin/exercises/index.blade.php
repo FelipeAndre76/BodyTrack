@@ -4,24 +4,24 @@
 
 @section('content')
 
-<div class="d-flex justify-content-between align-items-center mb-4">
-
+<div class="admin-premium-header">
     <div>
-        <h1 class="admin-title mb-0">
-            Exercícios
-        </h1>
-
-        <small class="text-secondary">
-            Gerencie os exercícios cadastrados
-        </small>
+        <span class="admin-kicker">Catálogo técnico</span>
+        <h1>Exercícios</h1>
+        <p>Gerencie exercícios, aparelhos, categorias e fotos usadas no treino dos usuários.</p>
     </div>
 
-    <a href="{{ route('admin.exercises.create') }}"
-       class="btn-admin">
-        <i class="bi bi-plus-circle"></i>
-        Novo Exercício
-    </a>
+    <div class="admin-header-actions">
+        <a href="{{ route('admin.photos.index') }}" class="btn-admin-secondary">
+            <i class="bi bi-image"></i>
+            Fotos
+        </a>
 
+        <a href="{{ route('admin.exercises.create') }}" class="btn-admin">
+            <i class="bi bi-plus-circle"></i>
+            Novo exercício
+        </a>
+    </div>
 </div>
 
 @if(session('success'))
@@ -30,83 +30,129 @@
     </div>
 @endif
 
-<div class="exercise-grid">
+<div class="exercise-premium-stats mb-4">
+    <div class="exercise-premium-stat main">
+        <span>Total de exercícios</span>
+        <strong>{{ $totalExercises }}</strong>
+        <small>{{ $totalCategories }} categoria(s) cadastrada(s)</small>
+    </div>
 
+    <div class="exercise-premium-stat">
+        <i class="bi bi-image-fill"></i>
+        <span>Com foto</span>
+        <strong>{{ $totalWithPhoto }}</strong>
+    </div>
+
+    <div class="exercise-premium-stat warning">
+        <i class="bi bi-camera"></i>
+        <span>Sem foto</span>
+        <strong>{{ $totalWithoutPhoto }}</strong>
+    </div>
+</div>
+
+<form method="GET" action="{{ route('admin.exercises.index') }}" class="exercise-premium-filter mb-4">
+    <div class="exercise-search-field">
+        <i class="bi bi-search"></i>
+        <input type="text"
+               name="q"
+               value="{{ request('q') }}"
+               placeholder="Buscar por exercício, aparelho ou categoria...">
+    </div>
+
+    <select name="category">
+        <option value="">Todas as categorias</option>
+        @foreach($categories as $category)
+            <option value="{{ $category->id }}" {{ request('category') == $category->id ? 'selected' : '' }}>
+                {{ $category->name }}
+            </option>
+        @endforeach
+    </select>
+
+    <select name="photo">
+        <option value="">Todas as fotos</option>
+        <option value="with-photo" {{ request('photo') === 'with-photo' ? 'selected' : '' }}>Com foto</option>
+        <option value="without-photo" {{ request('photo') === 'without-photo' ? 'selected' : '' }}>Sem foto</option>
+    </select>
+
+    <button type="submit" class="btn-admin">
+        <i class="bi bi-funnel"></i>
+        Filtrar
+    </button>
+
+    <a href="{{ route('admin.exercises.index') }}" class="btn-admin-secondary">
+        <i class="bi bi-x-circle"></i>
+        Limpar
+    </a>
+</form>
+
+<div class="exercise-premium-grid">
     @forelse($exercises as $exercise)
-
-        <div class="exercise-admin-card">
-
-            <div class="exercise-admin-image">
-
+        <div class="exercise-premium-card">
+            <div class="exercise-premium-image">
                 @if($exercise->image_path)
-
-                    <img src="{{ asset('storage/'.$exercise->image_path) }}"
-                         alt="{{ $exercise->name }}">
-
+                    <img src="{{ asset('storage/'.$exercise->image_path) }}" alt="{{ $exercise->name }}">
                 @else
-
-                    <i class="bi bi-image"></i>
-
+                    <div class="exercise-premium-placeholder">
+                        <i class="bi bi-image"></i>
+                        <span>Sem foto</span>
+                    </div>
                 @endif
-
             </div>
 
-            <div class="exercise-admin-body">
+            <div class="exercise-premium-body">
+                <div class="exercise-premium-meta">
+                    <span>{{ $exercise->category->name ?? 'Sem categoria' }}</span>
 
-                <span class="exercise-category">
-                    {{ $exercise->category->name ?? 'Sem categoria' }}
-                </span>
+                    @if($exercise->image_path)
+                        <strong class="photo-status complete">
+                            <i class="bi bi-check-circle"></i>
+                            Completo
+                        </strong>
+                    @else
+                        <strong class="photo-status pending">
+                            <i class="bi bi-exclamation-circle"></i>
+                            Pendente
+                        </strong>
+                    @endif
+                </div>
 
-                <h4>
-                    {{ $exercise->name }}
-                </h4>
+                <h3>{{ $exercise->name }}</h3>
 
-                <small>
-                    {{ $exercise->machine_name }}
-                </small>
+                <p>
+                    {{ $exercise->machine_name ?: 'Sem aparelho informado' }}
+                </p>
 
-                <div class="exercise-actions">
-
-                    <a href="{{ route('admin.exercises.edit', $exercise) }}"
-                       class="btn-edit">
-
+                <div class="exercise-premium-actions">
+                    <a href="{{ route('admin.exercises.edit', $exercise) }}" class="btn-edit" title="Editar">
                         <i class="bi bi-pencil"></i>
-
                     </a>
 
                     <form method="POST"
-      action="{{ route('admin.exercises.destroy', $exercise) }}"
-      class="delete-exercise-form">
+                          action="{{ route('admin.exercises.destroy', $exercise) }}"
+                          class="delete-exercise-form">
+                        @csrf
+                        @method('DELETE')
 
-    @csrf
-    @method('DELETE')
-
-    <button type="submit" class="btn-delete">
-        <i class="bi bi-trash"></i>
-    </button>
-</form>
-
+                        <button type="submit" class="btn-delete" title="Excluir">
+                            <i class="bi bi-trash"></i>
+                        </button>
+                    </form>
                 </div>
-
             </div>
-
         </div>
-
     @empty
-
-        <div class="panel">
-            Nenhum exercício cadastrado.
+        <div class="admin-empty-state">
+            Nenhum exercício encontrado.
         </div>
-
     @endforelse
-
 </div>
 
-<div class="mt-4">
-  {{ $exercises->onEachSide(1)->links('pagination::bootstrap-5') }}
+<div class="photo-pagination-wrapper">
+    {{ $exercises->onEachSide(1)->links('pagination::bootstrap-5') }}
 </div>
 
 @endsection
+
 @section('scripts')
 <script>
 document.addEventListener('DOMContentLoaded', function () {

@@ -1,0 +1,113 @@
+.system-notification-bar {
+    position: sticky;
+    top: 0;
+    z-index: 1030;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 18px;
+    margin: -32px -32px 28px;
+    padding: 12px 28px;
+    background:
+        linear-gradient(90deg, rgba(17, 24, 15, .98), rgba(23, 36, 15, .96)),
+        radial-gradient(circle at 10% 0%, rgba(103, 232, 249, .08), transparent 30%);
+    border-bottom: 1px solid var(--border-soft);
+    box-shadow: 0 12px 30px rgba(0, 0, 0, .22);
+}
+
+.system-notification-bar.is-hidden {
+    display: none;
+}
+
+.system-notification-bar[hidden] {
+    display: none !important;
+}
+
+.system-notification-content {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    min-width: 0;
+}
+
+.system-notification-icon {
+    width: 34px;
+    height: 34px;
+    display: grid;
+    place-items: center;
+    flex: 0 0 auto;
+    color: #050705;
+    background: linear-gradient(135deg, var(--brand), #bef264);
+    border-radius: 999px;
+}
+
+.system-notification-text {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    min-width: 0;
+    color: #d9f99d;
+}
+
+.system-notification-text strong {
+    color: #fff;
+    white-space: nowrap;
+}
+
+.system-notification-text span {
+    color: #b7c6ad;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+.system-notification-link {
+    color: var(--brand);
+    font-weight: 800;
+    text-decoration: none;
+    white-space: nowrap;
+}
+
+.system-notification-link:hover {
+    color: #fff;
+}
+
+.system-notification-close {
+    width: 34px;
+    height: 34px;
+    display: grid;
+    place-items: center;
+    flex: 0 0 auto;
+    border: 1px solid var(--border-soft);
+    border-radius: 999px;
+    background: rgba(5, 7, 5, .5);
+    color: #cbd5c0;
+}
+
+.system-notification-close:hover {
+    background: var(--brand);
+    color: #050705;
+}
+
+@media (max-width: 768px) {
+    .system-notification-bar {
+        align-items: flex-start;
+        margin: -24px -18px 24px;
+        padding: 12px 18px;
+    }
+
+    .system-notification-content,
+    .system-notification-text {
+        align-items: flex-start;
+    }
+
+    .system-notification-text {
+        flex-direction: column;
+        gap: 2px;
+    }
+
+    .system-notification-text strong,
+    .system-notification-text span {
+        white-space: normal;
+    }
+}

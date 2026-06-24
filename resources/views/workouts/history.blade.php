@@ -1,165 +1,226 @@
 @extends('layouts.bodytrack')
 
-@section('title', 'Histórico de Treinos')
+@section('title', 'Historico de Treinos')
 
 @section('content')
+@php
+    $allWorkouts = $workouts->flatten(1);
+    $totalWorkouts = $allWorkouts->count();
+    $totalExercises = $allWorkouts->sum(fn ($workout) => $workout->items->count());
+    $totalSets = $allWorkouts->sum(fn ($workout) => $workout->items->sum('sets'));
+    $totalLoad = $allWorkouts->sum(function ($workout) {
+        return $workout->items->sum(function ($item) {
+            return (float) ($item->weight ?? 0) * (int) ($item->sets ?? 0) * (int) ($item->reps ?? 0);
+        });
+    });
+    $lastWorkout = $allWorkouts->sortByDesc('workout_date')->first();
+@endphp
 
+<div class="training-history-page">
+    <section class="training-history-hero">
+        <div>
+            <span class="section-kicker">
+                <i class="bi bi-clock-history"></i>
+                Evolucao de treino
+            </span>
 
+            <h1>Historico de Treinos</h1>
 
-<div class="workout-history-page">
-    <div class="page-title mb-4">
-        Histórico de Treinos
-    </div>
-
-    @forelse($workouts as $date => $dayWorkouts)
-
-
-
-        <div class="workout-history-grid mb-5">
-            @foreach($dayWorkouts as $workout)
-
-                <div class="workout-history-item">
-                    <div class="workout-history-header">
-                        <div class="workout-history-title">
-                            <h4>{{ $workout->name }}</h4>
-                            <span>{{ $workout->items->count() }} exercício(s)</span>
-                        </div>
-
-                        <span class="workout-history-badge">
-                            {{ $workout->workout_date->format('d/m/Y') }}
-                        </span>
-                    </div>
-
-                    <div class="workout-card-slider"
-                         data-slider="workout-{{ $workout->id }}"
-                         data-current-index="0">
-
-                        @foreach($workout->items as $index => $item)
-                            <div class="workout-exercise-card {{ $index === 0 ? 'active' : '' }}">
-                                <div class="workout-card-counter">
-                                    {{ $index + 1 }} / {{ $workout->items->count() }}
-                                </div>
-
-                                <div class="workout-card-image">
-                                    @if($item->exercise->image_path)
-                                        <img src="{{ asset($item->exercise->image_path) }}" alt="{{ $item->exercise->name }}">
-                                    @else
-                                        <div class="workout-card-placeholder">
-                                            <i class="bi bi-activity"></i>
-                                        </div>
-                                    @endif
-                                </div>
-
-                                <div class="workout-card-body">
-                                    <span class="workout-card-date">
-                                        {{ $workout->workout_date->format('d/m/Y') }}
-                                    </span>
-
-                                    <h5>{{ $item->exercise->name }}</h5>
-
-                                    <p>{{ $workout->name }}</p>
-
-                                    <div class="workout-card-stats">
-                                        <div class="workout-card-stat">
-                                            <strong>{{ $item->sets }}</strong>
-                                            <span>séries</span>
-                                        </div>
-
-                                        <div class="workout-card-stat">
-                                            <strong>{{ $item->reps }}</strong>
-                                            <span>reps</span>
-                                        </div>
-
-                                        <div class="workout-card-stat">
-                                            <strong>{{ number_format($item->weight, 2) }}kg</strong>
-                                            <span>carga</span>
-                                        </div>
-                                    </div>
-
-                                    @if($item->notes)
-                                        <small class="workout-card-notes">
-                                            {{ $item->notes }}
-                                        </small>
-                                    @endif
-                                </div>
-                            </div>
-                        @endforeach
-                    </div>
-
-                    @if($workout->items->count() > 1)
-                        <div class="workout-slider-controls">
-                            <button type="button"
-                                    class="workout-slider-button workout-prev"
-                                    data-target="workout-{{ $workout->id }}">
-                                <i class="bi bi-chevron-left"></i>
-                            </button>
-
-                            <button type="button"
-                                    class="workout-slider-button workout-next"
-                                    data-target="workout-{{ $workout->id }}">
-                                <i class="bi bi-chevron-right"></i>
-                            </button>
-                        </div>
-                    @endif
-                </div>
-
-            @endforeach
-        </div>
-
-    @empty
-        <div class="panel">
-            <p class="text-secondary mb-0">
-                Nenhum treino registrado ainda.
+            <p>
+                Veja seus treinos salvos, acompanhe volume, exercicios e cargas registradas.
             </p>
         </div>
+
+        <a href="{{ route('workouts.index') }}" class="training-history-action">
+            <i class="bi bi-plus-lg"></i>
+            Novo treino
+        </a>
+    </section>
+
+    <section class="training-history-stats">
+        <article class="training-history-stat">
+            <span>Treinos salvos</span>
+            <strong>{{ $totalWorkouts }}</strong>
+        </article>
+
+        <article class="training-history-stat">
+            <span>Exercicios feitos</span>
+            <strong>{{ $totalExercises }}</strong>
+        </article>
+
+        <article class="training-history-stat">
+            <span>Series registradas</span>
+            <strong>{{ $totalSets }}</strong>
+        </article>
+
+        <article class="training-history-stat">
+            <span>Volume estimado</span>
+            <strong>{{ number_format($totalLoad, 0, ',', '.') }}kg</strong>
+        </article>
+    </section>
+
+    @if($lastWorkout)
+        <section class="training-history-highlight">
+            <div class="training-history-highlight-icon">
+                <i class="bi bi-lightning-charge"></i>
+            </div>
+
+            <div>
+                <span>Ultimo treino registrado</span>
+                <strong>{{ $lastWorkout->name }}</strong>
+                <small>{{ $lastWorkout->workout_date->format('d/m/Y') }} com {{ $lastWorkout->items->count() }} exercicio(s)</small>
+            </div>
+        </section>
+    @endif
+
+    @forelse($workouts as $date => $dayWorkouts)
+        <section class="training-history-day">
+            <div class="training-history-day-header">
+                <div>
+                    <span>Dia de treino</span>
+                    <h2>{{ $date }}</h2>
+                </div>
+
+                <small>{{ $dayWorkouts->count() }} treino(s) salvo(s)</small>
+            </div>
+
+            <div class="training-history-grid">
+                @foreach($dayWorkouts as $workout)
+                    <article class="training-history-card">
+                        <header class="training-history-card-header">
+                            <div>
+                                <span>{{ $workout->workout_date->format('d/m/Y') }}</span>
+                                <h3>{{ $workout->name }}</h3>
+                            </div>
+
+                            <strong>{{ $workout->items->count() }} itens</strong>
+                        </header>
+
+                        <div class="training-exercise-slider"
+                             data-training-slider="workout-{{ $workout->id }}"
+                             data-current-index="0">
+                            @foreach($workout->items as $index => $item)
+                                <div class="training-exercise-slide {{ $index === 0 ? 'active' : '' }}">
+                                    <div class="training-exercise-media">
+                                        @if($item->exercise && $item->exercise->image_path)
+                                            <img src="{{ asset($item->exercise->image_path) }}" alt="{{ $item->exercise->name }}">
+                                        @else
+                                            <div class="training-exercise-placeholder">
+                                                <i class="bi bi-activity"></i>
+                                            </div>
+                                        @endif
+
+                                        <span>{{ $index + 1 }} / {{ $workout->items->count() }}</span>
+                                    </div>
+
+                                    <div class="training-exercise-content">
+                                        <small>Exercicio</small>
+                                        <h4>{{ $item->exercise->name ?? 'Exercicio removido' }}</h4>
+
+                                        <div class="training-exercise-metrics">
+                                            <div>
+                                                <span>Series</span>
+                                                <strong>{{ $item->sets }}</strong>
+                                            </div>
+
+                                            <div>
+                                                <span>Reps</span>
+                                                <strong>{{ $item->reps }}</strong>
+                                            </div>
+
+                                            <div>
+                                                <span>Carga</span>
+                                                <strong>{{ number_format((float) $item->weight, 1, ',', '.') }}kg</strong>
+                                            </div>
+                                        </div>
+
+                                        @if($item->notes)
+                                            <p class="training-exercise-notes">
+                                                {{ $item->notes }}
+                                            </p>
+                                        @endif
+                                    </div>
+                                </div>
+                            @endforeach
+                        </div>
+
+                        @if($workout->items->count() > 1)
+                            <div class="training-slider-controls">
+                                <button type="button"
+                                        class="training-slider-button training-prev"
+                                        data-target="workout-{{ $workout->id }}"
+                                        aria-label="Exercicio anterior">
+                                    <i class="bi bi-chevron-left"></i>
+                                </button>
+
+                                <button type="button"
+                                        class="training-slider-button training-next"
+                                        data-target="workout-{{ $workout->id }}"
+                                        aria-label="Proximo exercicio">
+                                    <i class="bi bi-chevron-right"></i>
+                                </button>
+                            </div>
+                        @endif
+                    </article>
+                @endforeach
+            </div>
+        </section>
+    @empty
+        <section class="training-history-empty">
+            <i class="bi bi-calendar2-plus"></i>
+            <h2>Nenhum treino registrado ainda</h2>
+            <p>Monte seu primeiro treino para acompanhar sua evolucao por aqui.</p>
+            <a href="{{ route('workouts.index') }}" class="training-history-action">
+                <i class="bi bi-plus-lg"></i>
+                Criar treino
+            </a>
+        </section>
     @endforelse
 </div>
-
 @endsection
 
 @section('scripts')
 <script>
 document.addEventListener('DOMContentLoaded', function () {
-    function showWorkoutCard(sliderId, direction) {
-        const slider = document.querySelector(`[data-slider="${sliderId}"]`);
+    function showTrainingSlide(sliderId, direction) {
+        const slider = document.querySelector(`[data-training-slider="${sliderId}"]`);
 
         if (!slider) {
             return;
         }
 
-        const cards = slider.querySelectorAll('.workout-exercise-card');
+        const slides = slider.querySelectorAll('.training-exercise-slide');
 
-        if (!cards.length) {
+        if (!slides.length) {
             return;
         }
 
-        let currentIndex = parseInt(slider.dataset.currentIndex || 0);
-
-        cards[currentIndex].classList.remove('active');
+        let currentIndex = Number(slider.dataset.currentIndex || 0);
+        slides[currentIndex].classList.remove('active');
 
         currentIndex += direction;
 
         if (currentIndex < 0) {
-            currentIndex = cards.length - 1;
+            currentIndex = slides.length - 1;
         }
 
-        if (currentIndex >= cards.length) {
+        if (currentIndex >= slides.length) {
             currentIndex = 0;
         }
 
-        cards[currentIndex].classList.add('active');
+        slides[currentIndex].classList.add('active');
         slider.dataset.currentIndex = currentIndex;
     }
 
-    document.querySelectorAll('.workout-prev').forEach(button => {
+    document.querySelectorAll('.training-prev').forEach(button => {
         button.addEventListener('click', function () {
-            showWorkoutCard(this.dataset.target, -1);
+            showTrainingSlide(this.dataset.target, -1);
         });
     });
 
-    document.querySelectorAll('.workout-next').forEach(button => {
+    document.querySelectorAll('.training-next').forEach(button => {
         button.addEventListener('click', function () {
-            showWorkoutCard(this.dataset.target, 1);
+            showTrainingSlide(this.dataset.target, 1);
         });
     });
 });

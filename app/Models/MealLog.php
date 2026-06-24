@@ -20,6 +20,18 @@ class MealLog extends Model
         'photo_path',
     ];
 
+    protected function casts(): array
+    {
+        return [
+            'meal_date' => 'date',
+            'quantity' => 'decimal:2',
+            'protein' => 'decimal:2',
+            'carbs' => 'decimal:2',
+            'fat' => 'decimal:2',
+            'calories' => 'decimal:2',
+        ];
+    }
+
     public function food()
     {
         return $this->belongsTo(Food::class);

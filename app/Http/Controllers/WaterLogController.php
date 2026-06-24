@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\BodyMetrics;
 use App\Models\WaterLog;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -14,11 +15,9 @@ class WaterLogController extends Controller
 
         $profile = Auth::user()->profile;
 
-        $currentWeight = $profile?->current_weight ?? 0;
-
-        $goal = $currentWeight > 0
-            ? round($currentWeight * 35)
-            : 4000;
+        $metrics = BodyMetrics::for($profile);
+        $goal = $metrics['water_goal'];
+        $trainingGoal = $metrics['training_water_goal'];
 
         $waterToday = WaterLog::where('user_id', Auth::id())
             ->where('recorded_at', $today)
@@ -32,7 +31,9 @@ class WaterLogController extends Controller
         return view('water.index', compact(
             'waterToday',
             'waterLogs',
-            'goal'
+            'goal',
+            'trainingGoal',
+            'metrics'
         ));
     }
 
@@ -64,11 +65,8 @@ public function destroy(WaterLog $waterLog)
 
     $profile = Auth::user()->profile;
 
-    $currentWeight = $profile?->current_weight ?? 0;
-
-    $goal = $currentWeight > 0
-        ? round($currentWeight * 35)
-        : 4000;
+    $metrics = BodyMetrics::for($profile);
+    $goal = $metrics['water_goal'];
 
     $waterToday = WaterLog::where('user_id', Auth::id())
         ->where('recorded_at', $today)

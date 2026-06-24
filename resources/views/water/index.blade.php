@@ -38,6 +38,24 @@
             <p class="text-secondary mb-0">
               Faltam <strong class="text-success" id="waterRemaining">{{ $remaining }} ml</strong> para atingir sua meta.
             </p>
+
+            <div class="water-goal-insights">
+                <div>
+                    <span>Base anatômica</span>
+                    <strong>
+                        @if($metrics['has_custom_goals'] && ($metrics['calculated_goals']['water'] ?? 0) !== $metrics['water_goal'])
+                            Meta personalizada
+                        @else
+                            {{ number_format($metrics['weight'], 1, ',', '.') }}kg x 35ml
+                        @endif
+                    </strong>
+                </div>
+
+                <div>
+                    <span>Dia com treino</span>
+                    <strong>{{ number_format($trainingGoal, 0, ',', '.') }} ml</strong>
+                </div>
+            </div>
         </div>
     </div>
 
@@ -79,45 +97,52 @@
 </div>
 
 <div class="panel">
-    <h4>Histórico</h4>
+    <div class="d-flex flex-wrap align-items-center justify-content-between gap-3 mb-4">
+        <h4 class="mb-0">
+            <i class="bi bi-clock-history me-2 text-success"></i>
+            Histórico de hidratação
+        </h4>
 
-    <div class="table-responsive mt-4">
-        <table class="table table-dark table-borderless align-middle">
-            <thead>
-                <tr>
-                    <th>Data</th>
-                    <th>Quantidade</th>
-                    <th class="text-end">Ação</th>
-                </tr>
-            </thead>
+        <span class="text-secondary small">
+            {{ $waterLogs->count() }} registro(s)
+        </span>
+    </div>
 
-            <tbody>
-                @forelse($waterLogs as $log)
-                   <tr id="water-row-{{ $log->id }}">
-    <td>{{ date('d/m/Y', strtotime($log->recorded_at)) }}</td>
-    <td>{{ $log->amount_ml }} ml</td>
-    <td class="text-end">
-        <form method="POST"
-              action="{{ route('water.destroy', $log) }}"
-              class="delete-water-form">
-            @csrf
-            @method('DELETE')
+    <div class="water-history-list">
+        @forelse($waterLogs as $log)
+            <div class="water-history-item" id="water-row-{{ $log->id }}">
+                <div class="water-history-icon">
+                    <i class="bi bi-droplet-fill"></i>
+                </div>
 
-            <button type="submit" class="btn-delete">
-                <i class="bi bi-trash"></i>
-            </button>
-        </form>
-    </td>
-</tr>
-                @empty
-                    <tr>
-                        <td colspan="3" class="text-secondary">
-                            Nenhum registro de água ainda.
-                        </td>
-                    </tr>
-                @endforelse
-            </tbody>
-        </table>
+                <div class="water-history-main">
+                    <span>{{ date('d/m/Y', strtotime($log->recorded_at)) }}</span>
+                    <strong>{{ number_format($log->amount_ml, 0, ',', '.') }} ml</strong>
+                </div>
+
+                <div class="water-history-meta">
+                    <span>{{ $log->created_at->format('H:i') }}</span>
+                    <small>Registro de consumo</small>
+                </div>
+
+                <form method="POST"
+                      action="{{ route('water.destroy', $log) }}"
+                      class="delete-water-form">
+                    @csrf
+                    @method('DELETE')
+
+                    <button type="submit" class="btn-delete" aria-label="Excluir registro">
+                        <i class="bi bi-trash"></i>
+                    </button>
+                </form>
+            </div>
+        @empty
+            <div class="water-history-empty">
+                <i class="bi bi-droplet"></i>
+                <strong>Nenhum registro ainda</strong>
+                <span>Adicione seu primeiro consumo de água para acompanhar sua meta.</span>
+            </div>
+        @endforelse
     </div>
 </div>
 
@@ -157,7 +182,7 @@ document.addEventListener('DOMContentLoaded', function () {
             const data = await response.json();
 
             if (data.success) {
-                form.closest('tr').remove();
+                form.closest('.water-history-item').remove();
 
                 document.getElementById('waterTotal').innerText =
                     `${data.waterToday} ml / ${data.goal} ml`;

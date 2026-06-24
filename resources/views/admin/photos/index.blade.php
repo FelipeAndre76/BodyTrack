@@ -4,104 +4,174 @@
 
 @section('content')
 
-<div class="d-flex justify-content-between align-items-center mb-4">
+@section('content')
+
+<div class="admin-premium-header">
     <div>
-        <h1 class="admin-title mb-0">Fotos dos Aparelhos</h1>
-        <small class="text-secondary">Gerencie as imagens dos exercícios</small>
+        <span class="admin-kicker">Central de mídia</span>
+        <h1>Fotos dos Aparelhos</h1>
+        <p>Gerencie as imagens dos exercícios e mantenha o catálogo visual do BodyTrack completo.</p>
+    </div>
+
+    <div class="admin-header-actions">
+        <a href="{{ route('admin.exercises.index') }}" class="btn-admin-secondary">
+            <i class="bi bi-activity"></i>
+            Exercícios
+        </a>
+
+        <a href="{{ route('admin.dashboard') }}" class="btn-admin">
+            <i class="bi bi-grid"></i>
+            Dashboard
+        </a>
     </div>
 </div>
 
-<div class="photo-toolbar mb-4">
-    <div class="photo-progress-card">
-        <span>Progresso das Fotos</span>
-
-        <strong id="photoProgressText">{{ $photoProgress }}%</strong>
-
-        <div class="photo-progress-bar">
-            <div id="photoProgressBar" style="width: {{ $photoProgress }}%"></div>
+<div class="photo-premium-hero mb-4">
+    <div class="photo-premium-progress">
+        <div>
+            <span>Progresso das fotos</span>
+            <strong id="photoProgressText">{{ $photoProgress }}%</strong>
+            <small id="photoProgressInfo">
+                {{ $totalWithPhoto }} com foto / {{ $totalExercises }} exercícios
+            </small>
         </div>
 
-        <small id="photoProgressInfo">
-            {{ $totalWithPhoto }} com foto / {{ $totalExercises }} exercícios
-        </small>
+        <div class="photo-premium-ring">
+            <div>{{ $photoProgress }}%</div>
+        </div>
     </div>
 
-    <div class="photo-filter-group">
-        <a href="{{ route('admin.photos.index') }}" class="photo-filter {{ request('status') ? '' : 'active' }}">
-            Todos
-            <span>{{ $totalExercises }}</span>
-        </a>
-
-        <a href="{{ route('admin.photos.index', ['status' => 'with-photo']) }}" class="photo-filter {{ request('status') === 'with-photo' ? 'active' : '' }}">
-            Com Foto
-            <span id="totalWithPhoto">{{ $totalWithPhoto }}</span>
-        </a>
-
-        <a href="{{ route('admin.photos.index', ['status' => 'without-photo']) }}" class="photo-filter {{ request('status') === 'without-photo' ? 'active' : '' }}">
-            Sem Foto
-            <span id="totalWithoutPhoto">{{ $totalWithoutPhoto }}</span>
-        </a>
-    </div>
-</div>
-
-<div class="photo-search-wrapper">
-    <div class="photo-search-box">
-        <i class="bi bi-search"></i>
-
-        <input type="text" id="photoSearchInput" class="photo-search-input" placeholder="Buscar exercício ou categoria...">
+    <div class="photo-progress-bar premium">
+        <div id="photoProgressBar" style="width: {{ $photoProgress }}%"></div>
     </div>
 
-    <div id="photoNoResults" class="photo-no-results">
-        Nenhum exercício encontrado.
+    <div class="photo-premium-filters">
+      <a href="{{ route('admin.photos.index', array_filter(['q' => request('q')])) }}"
+   class="photo-premium-filter {{ request('status') ? '' : 'active' }}">
+    <i class="bi bi-grid-3x3-gap"></i>
+    <span>Todos</span>
+    <strong>{{ $totalExercises }}</strong>
+</a>
+
+<a href="{{ route('admin.photos.index', array_filter(['status' => 'with-photo', 'q' => request('q')])) }}"
+   class="photo-premium-filter {{ request('status') === 'with-photo' ? 'active' : '' }}">
+    <i class="bi bi-image-fill"></i>
+    <span>Com foto</span>
+    <strong id="totalWithPhoto">{{ $totalWithPhoto }}</strong>
+</a>
+
+<a href="{{ route('admin.photos.index', array_filter(['status' => 'without-photo', 'q' => request('q')])) }}"
+   class="photo-premium-filter warning {{ request('status') === 'without-photo' ? 'active' : '' }}">
+    <i class="bi bi-camera"></i>
+    <span>Sem foto</span>
+    <strong id="totalWithoutPhoto">{{ $totalWithoutPhoto }}</strong>
+</a>
     </div>
 </div>
 
+<form method="GET" action="{{ route('admin.photos.index') }}" class="photo-premium-search mb-4">
+    @if(request('status'))
+        <input type="hidden" name="status" value="{{ request('status') }}">
+    @endif
 
+    <i class="bi bi-search"></i>
 
-<div class="admin-grid">
+    <input type="text"
+           name="q"
+           id="photoSearchInput"
+           class="photo-search-input"
+           value="{{ request('q') }}"
+           placeholder="Buscar exercício ou categoria...">
+
+    <button type="submit" class="photo-search-button">
+        Buscar
+    </button>
+</form>
+
+<div id="photoNoResults" class="photo-no-results premium">
+    Nenhum exercício encontrado.
+</div>
+
+<div class="photo-premium-grid">
     @foreach($exercises as $exercise)
 
-    <div class="admin-history-card photo-card" data-exercise-id="{{ $exercise->id }}" data-search="{{ strtolower($exercise->name . ' ' . ($exercise->category->name ?? '')) }}">
+        <div class="photo-premium-card photo-card"
+             data-exercise-id="{{ $exercise->id }}"
+             data-search="{{ strtolower($exercise->name . ' ' . ($exercise->category->name ?? '')) }}">
 
-        <div class="admin-card-image photo-preview-box">
-            @if($exercise->image_path)
-            <img src="{{ asset('storage/'.$exercise->image_path) }}" class="photo-preview-img open-photo-modal" data-full="{{ asset('storage/'.$exercise->image_path) }}" data-title="{{ $exercise->name }}" alt="{{ $exercise->name }}">
-            @else
-            <i class="bi bi-image photo-placeholder"></i>
-            @endif
-        </div>
+            <div class="photo-premium-image photo-preview-box">
+                @if($exercise->image_path)
+                    <img src="{{ asset('storage/'.$exercise->image_path) }}"
+                         class="photo-preview-img open-photo-modal"
+                         data-full="{{ asset('storage/'.$exercise->image_path) }}"
+                         data-title="{{ $exercise->name }}"
+                         alt="{{ $exercise->name }}">
+                @else
+                    <div class="photo-premium-placeholder">
+                        <i class="bi bi-image"></i>
+                        <span>Sem foto</span>
+                    </div>
+                @endif
+            </div>
 
-        <div class="admin-card-body">
-            <span>{{ $exercise->category->name ?? '-' }}</span>
+            <div class="photo-premium-body">
+                <div class="photo-premium-meta">
+                    <span>{{ $exercise->category->name ?? 'Sem categoria' }}</span>
 
-            <h3>{{ $exercise->name }}</h3>
-
-            <form class="photo-upload-form" action="{{ route('admin.photos.update', $exercise) }}" enctype="multipart/form-data">
-
-                @csrf
-
-                <div class="photo-drop-zone">
-                    <i class="bi bi-cloud-arrow-up"></i>
-                    <span>Arraste a imagem aqui ou clique</span>
+                    @if($exercise->image_path)
+                        <strong class="photo-status complete">
+                            <i class="bi bi-check-circle"></i>
+                            Completo
+                        </strong>
+                    @else
+                        <strong class="photo-status pending">
+                            <i class="bi bi-exclamation-circle"></i>
+                            Pendente
+                        </strong>
+                    @endif
                 </div>
 
-                <input type="file" name="image" class="photo-input photo-input-hidden" accept="image/*" required>
+                <h3>{{ $exercise->name }}</h3>
 
-                <button type="submit" class="btn-admin w-100">
-                    Salvar Foto
+                <form class="photo-upload-form"
+                      action="{{ route('admin.photos.update', $exercise) }}"
+                      enctype="multipart/form-data">
+
+                    @csrf
+
+                    <div class="photo-drop-zone premium">
+                        <i class="bi bi-cloud-arrow-up"></i>
+                        <span>Arraste a imagem aqui ou clique</span>
+                    </div>
+
+                    <input type="file"
+                           name="image"
+                           class="photo-input photo-input-hidden"
+                           accept="image/*"
+                           required>
+
+                    <button type="submit" class="btn-admin w-100">
+                        <i class="bi bi-upload"></i>
+                        Salvar foto
+                    </button>
+                </form>
+
+                <button type="button"
+                        class="btn-delete-photo mt-3"
+                        data-url="{{ route('admin.photos.destroy', $exercise) }}"
+                        style="{{ $exercise->image_path ? '' : 'display:none;' }}">
+                    <i class="bi bi-trash"></i>
+                    Remover foto
                 </button>
-            </form>
-
-            <button type="button" class="btn-delete-photo mt-3" data-url="{{ route('admin.photos.destroy', $exercise) }}" style="{{ $exercise->image_path ? '' : 'display:none;' }}">
-                <i class="bi bi-trash"></i>
-                Remover foto
-            </button>
+            </div>
         </div>
-
-    </div>
 
     @endforeach
 </div>
+<div class="photo-pagination-wrapper">
+    {{ $exercises->onEachSide(1)->links('pagination::bootstrap-5') }}
+</div>
+@endsection
 
 @endsection
 

@@ -1,0 +1,144 @@
+.water-history-list {
+    display: grid;
+    gap: 12px;
+}
+
+.water-history-item {
+    display: grid;
+    grid-template-columns: 48px minmax(0, 1fr) auto auto;
+    align-items: center;
+    gap: 16px;
+    padding: 16px;
+    border: 1px solid var(--border-soft);
+    border-radius: 20px;
+    background:
+        linear-gradient(145deg, rgba(5, 7, 5, .72), rgba(13, 19, 14, .72)),
+        radial-gradient(circle at top left, rgba(103, 232, 249, .06), transparent 32%);
+    box-shadow: inset 0 1px 0 rgba(255, 255, 255, .03);
+    transition: .2s ease;
+}
+
+.water-history-item:hover {
+    transform: translateY(-1px);
+    border-color: rgba(103, 232, 249, .24);
+    background:
+        linear-gradient(145deg, rgba(7, 12, 12, .82), rgba(13, 19, 14, .82)),
+        radial-gradient(circle at top left, rgba(103, 232, 249, .1), transparent 32%);
+}
+
+.water-history-icon {
+    width: 48px;
+    height: 48px;
+    display: grid;
+    place-items: center;
+    border-radius: 16px;
+    color: #061013;
+    background: linear-gradient(135deg, #67e8f9, #a3e635);
+    box-shadow: 0 14px 30px rgba(103, 232, 249, .16);
+}
+
+.water-history-icon i {
+    font-size: 22px;
+}
+
+.water-history-main span,
+.water-history-meta small {
+    display: block;
+    color: var(--muted);
+    font-size: 13px;
+}
+
+.water-history-main strong {
+    display: block;
+    color: var(--text);
+    font-size: 22px;
+    font-weight: 900;
+    margin-top: 2px;
+}
+
+.water-history-meta {
+    min-width: 120px;
+    text-align: right;
+}
+
+.water-history-meta span {
+    display: block;
+    color: var(--cyan);
+    font-size: 14px;
+    font-weight: 850;
+}
+
+.water-history-empty {
+    display: grid;
+    place-items: center;
+    gap: 8px;
+    min-height: 170px;
+    padding: 28px;
+    border: 1px dashed var(--border-soft);
+    border-radius: 22px;
+    color: var(--muted);
+    text-align: center;
+    background: rgba(5, 7, 5, .48);
+}
+
+.water-history-empty i {
+    color: var(--cyan);
+    font-size: 30px;
+}
+
+.water-history-empty strong {
+    color: var(--text);
+    font-size: 18px;
+}
+
+.water-history-empty span {
+    max-width: 360px;
+}
+
+.water-goal-insights {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 12px;
+    margin-top: 18px;
+}
+
+.water-goal-insights div {
+    padding: 14px;
+    border: 1px solid var(--border-soft);
+    border-radius: 12px;
+    background: rgba(5, 7, 5, .58);
+}
+
+.water-goal-insights span {
+    display: block;
+    color: var(--muted);
+    font-size: 12px;
+    margin-bottom: 6px;
+}
+
+.water-goal-insights strong {
+    color: var(--accent);
+    font-size: 16px;
+}
+
+@media (max-width: 768px) {
+    .water-history-item {
+        grid-template-columns: 42px minmax(0, 1fr) auto;
+        gap: 12px;
+    }
+
+    .water-history-icon {
+        width: 42px;
+        height: 42px;
+        border-radius: 14px;
+    }
+
+    .water-history-meta {
+        grid-column: 2 / -1;
+        text-align: left;
+    }
+
+    .water-goal-insights {
+        grid-template-columns: 1fr;
+    }
+}

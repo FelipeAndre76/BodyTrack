@@ -4,140 +4,182 @@
 
 @section('content')
 
-<div class="admin-title">
-    Usuários
-</div>
-
-<div class="admin-user-stats-grid">
-    <div class="admin-user-stat-card">
-        <span>Total de Usuários</span>
-        <strong>{{ $totalUsers }}</strong>
+<div class="admin-premium-header">
+    <div>
+        <span class="admin-kicker">Controle de acesso</span>
+        <h1>Usuários</h1>
+        <p>Gerencie contas, permissões administrativas e bloqueios de acesso ao BodyTrack.</p>
     </div>
 
-    <div class="admin-user-stat-card admin">
+    <div class="admin-header-actions">
+        <a href="{{ route('admin.logs.index') }}" class="btn-admin-secondary">
+            <i class="bi bi-list-check"></i>
+            Logs
+        </a>
+
+        <a href="{{ route('admin.dashboard') }}" class="btn-admin">
+            <i class="bi bi-grid"></i>
+            Dashboard
+        </a>
+    </div>
+</div>
+
+<div class="user-premium-stats mb-4">
+    <div class="user-premium-stat main">
+        <span>Total de usuários</span>
+        <strong>{{ $totalUsers }}</strong>
+        <small>{{ $totalActiveUsers }} ativo(s) no sistema</small>
+    </div>
+
+    <div class="user-premium-stat">
+        <i class="bi bi-shield-check"></i>
         <span>Administradores</span>
         <strong>{{ $totalAdmins }}</strong>
     </div>
 
-    <div class="admin-user-stat-card common">
-        <span>Usuários Comuns</span>
+    <div class="user-premium-stat">
+        <i class="bi bi-person"></i>
+        <span>Usuários comuns</span>
         <strong>{{ $totalCommonUsers }}</strong>
+    </div>
+
+    <div class="user-premium-stat warning">
+        <i class="bi bi-slash-circle"></i>
+        <span>Bloqueados</span>
+        <strong>{{ $totalBlockedUsers }}</strong>
     </div>
 </div>
 
-<div class="admin-user-search-wrapper">
-    <div class="admin-user-search-box">
+<form method="GET" action="{{ route('admin.users.index') }}" class="user-premium-filter mb-4">
+    <div class="user-search-field">
         <i class="bi bi-search"></i>
 
         <input type="text"
-               id="adminUserSearchInput"
-               class="admin-user-search-input"
-               placeholder="Buscar usuário por nome ou e-mail...">
+               name="q"
+               value="{{ request('q') }}"
+               placeholder="Buscar por nome ou e-mail...">
     </div>
 
-    <div id="adminUserNoResults" class="admin-user-no-results">
-        Nenhum usuário encontrado.
-    </div>
+    <select name="role">
+        <option value="">Todos os perfis</option>
+        <option value="admin" {{ request('role') === 'admin' ? 'selected' : '' }}>Administradores</option>
+        <option value="user" {{ request('role') === 'user' ? 'selected' : '' }}>Usuários comuns</option>
+    </select>
+
+    <select name="status">
+        <option value="">Todos os status</option>
+        <option value="active" {{ request('status') === 'active' ? 'selected' : '' }}>Ativos</option>
+        <option value="blocked" {{ request('status') === 'blocked' ? 'selected' : '' }}>Bloqueados</option>
+    </select>
+
+    <button type="submit" class="btn-admin">
+        <i class="bi bi-funnel"></i>
+        Filtrar
+    </button>
+
+    <a href="{{ route('admin.users.index') }}" class="btn-admin-secondary">
+        <i class="bi bi-x-circle"></i>
+        Limpar
+    </a>
+</form>
+
+<div class="user-premium-grid">
+    @forelse($users as $user)
+        <div class="user-premium-card">
+            <div class="user-premium-top">
+                <div class="user-premium-avatar">
+                    <i class="bi bi-person-fill"></i>
+                </div>
+
+                <div class="user-premium-status">
+                    @if($user->is_active)
+                        <span class="user-status active">
+                            <i class="bi bi-check-circle"></i>
+                            Ativo
+                        </span>
+                    @else
+                        <span class="user-status blocked">
+                            <i class="bi bi-slash-circle"></i>
+                            Bloqueado
+                        </span>
+                    @endif
+                </div>
+            </div>
+
+            <div class="user-premium-body">
+                <h3>{{ mb_strtoupper($user->name, 'UTF-8') }}</h3>
+                <p>{{ $user->email }}</p>
+
+                <div class="user-premium-badges">
+                    @if($user->is_admin)
+                        <span class="user-role admin">
+                            <i class="bi bi-shield-check"></i>
+                            Administrador
+                        </span>
+                    @else
+                        <span class="user-role common">
+                            <i class="bi bi-person"></i>
+                            Usuário comum
+                        </span>
+                    @endif
+                </div>
+
+                @if(auth()->id() !== $user->id)
+                    <div class="user-premium-actions">
+                        <form method="POST"
+                              action="{{ route('admin.users.toggle-status', $user) }}"
+                              class="user-toggle-status-form"
+                              data-user-name="{{ $user->name }}"
+                              data-is-active="{{ $user->is_active ? '1' : '0' }}">
+                            @csrf
+                            @method('PATCH')
+
+                            <button type="submit" class="btn-admin-mini orange w-100">
+                                {{ $user->is_active ? 'Bloquear' : 'Desbloquear' }}
+                            </button>
+                        </form>
+
+                        <form method="POST"
+                              action="{{ route('admin.users.toggle-admin', $user) }}"
+                              class="user-toggle-admin-form"
+                              data-user-name="{{ $user->name }}"
+                              data-is-admin="{{ $user->is_admin ? '1' : '0' }}">
+                            @csrf
+                            @method('PATCH')
+
+                            <button type="submit" class="btn-admin-mini green w-100">
+                                {{ $user->is_admin ? 'Remover admin' : 'Tornar admin' }}
+                            </button>
+                        </form>
+
+                        <form method="POST"
+                              action="{{ route('admin.users.destroy', $user) }}"
+                              class="user-delete-form"
+                              data-user-name="{{ $user->name }}">
+                            @csrf
+                            @method('DELETE')
+
+                            <button type="submit" class="btn-admin-mini red w-100">
+                                Excluir
+                            </button>
+                        </form>
+                    </div>
+                @else
+                    <div class="user-current-account">
+                        Esta é sua conta atual
+                    </div>
+                @endif
+            </div>
+        </div>
+    @empty
+        <div class="admin-empty-state">
+            Nenhum usuário encontrado.
+        </div>
+    @endforelse
 </div>
 
-<div class="admin-users-grid">
-    @foreach($users as $user)
-
-        <div class="admin-user-card"
-             data-search="{{ strtolower($user->name . ' ' . $user->email) }}">
-
-            <div class="admin-user-avatar">
-                <i class="bi bi-person"></i>
-            </div>
-
-            <div class="admin-user-name">
-                {{ mb_strtoupper($user->name, 'UTF-8') }}
-            </div>
-
-            <div class="admin-user-email">
-                {{ $user->email }}
-            </div>
-
-            <div class="admin-user-badges">
-                @if($user->is_active)
-                    <div class="admin-user-status active">
-                        <i class="bi bi-check-circle"></i>
-                        Ativo
-                    </div>
-                @else
-                    <div class="admin-user-status inactive">
-                        <i class="bi bi-slash-circle"></i>
-                        Bloqueado
-                    </div>
-                @endif
-
-                @if($user->is_admin)
-                    <div class="admin-user-role admin">
-                        <i class="bi bi-shield-check"></i>
-                        Administrador
-                    </div>
-                @else
-                    <div class="admin-user-role user">
-                        <i class="bi bi-person"></i>
-                        Usuário
-                    </div>
-                @endif
-            </div>
-
-            <div class="admin-user-actions">
-
-                @if(auth()->id() !== $user->id)
-                    <form method="POST"
-                          action="{{ route('admin.users.toggle-status', $user) }}"
-                          class="user-toggle-status-form"
-                          data-user-name="{{ $user->name }}"
-                          data-is-active="{{ $user->is_active ? '1' : '0' }}">
-
-                        @csrf
-                        @method('PATCH')
-
-                        <button type="submit" class="btn-admin-mini orange w-100">
-                            {{ $user->is_active ? 'Bloquear' : 'Desbloquear' }}
-                        </button>
-                    </form>
-                @endif
-
-                @if(auth()->id() !== $user->id)
-                    <form method="POST"
-                          action="{{ route('admin.users.toggle-admin', $user) }}"
-                          class="user-toggle-admin-form"
-                          data-user-name="{{ $user->name }}"
-                          data-is-admin="{{ $user->is_admin ? '1' : '0' }}">
-
-                        @csrf
-                        @method('PATCH')
-
-                        <button type="submit" class="btn-admin-mini green w-100">
-                            {{ $user->is_admin ? 'Remover Admin' : 'Admin' }}
-                        </button>
-                    </form>
-                @endif
-
-                @if(auth()->id() !== $user->id)
-                    <form method="POST"
-                          action="{{ route('admin.users.destroy', $user) }}"
-                          class="user-delete-form"
-                          data-user-name="{{ $user->name }}">
-
-                        @csrf
-                        @method('DELETE')
-
-                        <button type="submit" class="btn-admin-mini red w-100">
-                            Excluir
-                        </button>
-                    </form>
-                @endif
-
-            </div>
-
-        </div>
-
-    @endforeach
+<div class="photo-pagination-wrapper">
+    {{ $users->onEachSide(1)->links('pagination::bootstrap-5') }}
 </div>
 
 @endsection
@@ -145,7 +187,6 @@
 @section('scripts')
 <script>
 document.addEventListener('DOMContentLoaded', function () {
-
     async function requestMasterPassword() {
         const passwordResult = await Swal.fire({
             title: 'Senha Administrativa',
@@ -214,7 +255,6 @@ document.addEventListener('DOMContentLoaded', function () {
             if (!password) return;
 
             appendMasterPassword(form, password);
-
             form.submit();
         });
     });
@@ -248,7 +288,6 @@ document.addEventListener('DOMContentLoaded', function () {
             if (!password) return;
 
             appendMasterPassword(form, password);
-
             form.submit();
         });
     });
@@ -280,38 +319,9 @@ document.addEventListener('DOMContentLoaded', function () {
             if (!password) return;
 
             appendMasterPassword(form, password);
-
             form.submit();
         });
     });
-
-    const searchInput = document.getElementById('adminUserSearchInput');
-    const noResults = document.getElementById('adminUserNoResults');
-
-    if (searchInput) {
-        searchInput.addEventListener('input', function () {
-            const term = this.value.toLowerCase().trim();
-            const cards = document.querySelectorAll('.admin-user-card');
-
-            let visibleCount = 0;
-
-            cards.forEach(card => {
-                const searchText = card.dataset.search || '';
-
-                if (searchText.includes(term)) {
-                    card.style.display = '';
-                    visibleCount++;
-                } else {
-                    card.style.display = 'none';
-                }
-            });
-
-            if (noResults) {
-                noResults.classList.toggle('active', visibleCount === 0);
-            }
-        });
-    }
-
 });
 </script>
 @endsection

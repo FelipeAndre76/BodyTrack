@@ -12,10 +12,14 @@ return Application::configure(basePath: dirname(__DIR__))
         health: '/up',
     )
     ->withMiddleware(function (Middleware $middleware): void {
-      $middleware->alias([
-    'admin' => \App\Http\Middleware\AdminMiddleware::class,
-    'active' => \App\Http\Middleware\CheckUserActive::class,
-]);
+        $middleware->web(append: [
+            \App\Http\Middleware\FixPortugueseEncoding::class,
+        ]);
+
+        $middleware->alias([
+            'admin' => \App\Http\Middleware\AdminMiddleware::class,
+            'active' => \App\Http\Middleware\CheckUserActive::class,
+        ]);
     })
     ->withExceptions(function (Exceptions $exceptions): void {
         $exceptions->shouldRenderJsonWhen(

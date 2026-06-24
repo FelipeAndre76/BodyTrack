@@ -4,162 +4,119 @@
 
 @section('content')
 
-<div class="d-flex justify-content-between align-items-center mb-4">
-
+<div class="admin-premium-header">
     <div>
-        <h1 class="admin-title mb-0">
-            Editar Exercício
-        </h1>
-
-        <small class="text-secondary">
-            Atualize os dados do exercício
-        </small>
+        <span class="admin-kicker">Atualização técnica</span>
+        <h1>Editar Exercício</h1>
+        <p>Atualize categoria, nome, aparelho, descrição e foto do exercício.</p>
     </div>
 
-    <a href="{{ route('admin.exercises.index') }}" class="btn-admin-secondary">
-
-        <i class="bi bi-arrow-left"></i>
-        Voltar
-
-    </a>
-
+    <div class="admin-header-actions">
+        <a href="{{ route('admin.exercises.index') }}" class="btn-admin-secondary">
+            <i class="bi bi-arrow-left"></i>
+            Voltar
+        </a>
+    </div>
 </div>
 
-<div class="admin-form-card">
-
+<div class="premium-form-shell">
     <form method="POST" action="{{ route('admin.exercises.update', $exercise) }}" enctype="multipart/form-data">
-
         @csrf
         @method('PUT')
 
-        <div class="row g-4">
-
-            <div class="col-md-6">
-
-                <label class="admin-label">
-                    Categoria
-                </label>
-
-                <select name="exercise_category_id" class="admin-input" required>
-
-                    @foreach($categories as $category)
-
-                    <option value="{{ $category->id }}" {{ $exercise->exercise_category_id == $category->id ? 'selected' : '' }}>
-
-                        {{ $category->name }}
-
-                    </option>
-
-                    @endforeach
-
-                </select>
-
-            </div>
-
-            <div class="col-md-6">
-
-                <label class="admin-label">
-                    Nome do Exercício
-                </label>
-
-                <input type="text" name="name" value="{{ $exercise->name }}" class="admin-input" required>
-
-            </div>
-
-            <div class="col-md-6">
-
-                <label class="admin-label">
-                    Nome do Aparelho
-                </label>
-
-                <input type="text" name="machine_name" value="{{ $exercise->machine_name }}" class="admin-input">
-
-            </div>
-
-            <div class="col-md-6">
-
-                <label class="admin-label">
-                    Nova Foto
-                </label>
-
-                <input type="file" name="image" class="admin-input" accept="image/*">
-
-            </div>
-
-            <div class="col-md-6">
-
-                <label class="admin-label">
-                    Foto Atual
-                </label>
-
-                <div class="image-preview-container">
-
-                    @if($exercise->image_path)
-
-                    <img id="imagePreview" src="{{ asset('storage/'.$exercise->image_path) }}" style="display:block;">
-
-                    @else
-
-                    <img id="imagePreview" src="" style="display:none;">
-
-                    @endif
-
+        <div class="premium-form-grid">
+            <div class="premium-form-panel">
+                <div class="premium-form-section-title">
+                    <i class="bi bi-activity"></i>
+                    <div>
+                        <strong>Informações do exercício</strong>
+                        <span>Dados principais exibidos no catálogo.</span>
+                    </div>
                 </div>
 
+                <div class="premium-field">
+                    <label>Categoria</label>
+                    <select name="exercise_category_id" class="admin-input" required>
+                        @foreach($categories as $category)
+                            <option value="{{ $category->id }}" {{ $exercise->exercise_category_id == $category->id ? 'selected' : '' }}>
+                                {{ $category->name }}
+                            </option>
+                        @endforeach
+                    </select>
+                </div>
+
+                <div class="premium-field">
+                    <label>Nome do exercício</label>
+                    <input type="text" name="name" value="{{ $exercise->name }}" class="admin-input" required>
+                </div>
+
+                <div class="premium-field">
+                    <label>Nome do aparelho</label>
+                    <input type="text" name="machine_name" value="{{ $exercise->machine_name }}" class="admin-input">
+                </div>
+
+                <div class="premium-field">
+                    <label>Descrição</label>
+                    <textarea name="description" class="admin-input" rows="5">{{ $exercise->description }}</textarea>
+                </div>
             </div>
 
-            <div class="col-12">
+            <div class="premium-form-panel">
+                <div class="premium-form-section-title">
+                    <i class="bi bi-image"></i>
+                    <div>
+                        <strong>Foto do aparelho</strong>
+                        <span>Envie uma nova imagem para substituir a atual.</span>
+                    </div>
+                </div>
 
-                <label class="admin-label">
-                    Descrição
-                </label>
+                <div class="premium-image-preview">
+                    @if($exercise->image_path)
+                        <img id="imagePreview" src="{{ asset('storage/'.$exercise->image_path) }}" alt="{{ $exercise->name }}" style="display:block;">
+                        <div id="imagePlaceholder" class="premium-image-placeholder" style="display:none;">
+                    @else
+                        <img id="imagePreview" src="" alt="Prévia da imagem">
+                        <div id="imagePlaceholder" class="premium-image-placeholder">
+                    @endif
+                        <i class="bi bi-cloud-arrow-up"></i>
+                        <span>Selecione uma imagem</span>
+                    </div>
+                </div>
 
-                <textarea name="description" class="admin-input" rows="5">{{ $exercise->description }}</textarea>
+                <div class="premium-field">
+                    <label>Nova imagem</label>
+                    <input type="file" name="image" class="admin-input" accept="image/*">
+                </div>
 
-            </div>
-
-            <div class="col-12">
-
-                <button type="submit" class="btn-admin">
-
+                <button type="submit" class="btn-admin w-100">
                     <i class="bi bi-check-circle"></i>
-                    Atualizar Exercício
-
+                    Atualizar exercício
                 </button>
-
             </div>
-
         </div>
-
     </form>
-
 </div>
 
 @endsection
 
 @section('scripts')
-
 <script>
-    document.addEventListener('DOMContentLoaded', () => {
+document.addEventListener('DOMContentLoaded', () => {
+    const input = document.querySelector('input[name="image"]');
+    const preview = document.getElementById('imagePreview');
+    const placeholder = document.getElementById('imagePlaceholder');
 
-        const input = document.querySelector('input[name="image"]');
-        const preview = document.getElementById('imagePreview');
+    if (!input || !preview || !placeholder) return;
 
-        if (!input || !preview) return;
+    input.addEventListener('change', (event) => {
+        const file = event.target.files[0];
 
-        input.addEventListener('change', (event) => {
+        if (!file) return;
 
-            const file = event.target.files[0];
-
-            if (!file) return;
-
-            preview.src = URL.createObjectURL(file);
-            preview.style.display = 'block';
-
-        });
-
+        preview.src = URL.createObjectURL(file);
+        preview.style.display = 'block';
+        placeholder.style.display = 'none';
     });
-
+});
 </script>
-
 @endsection

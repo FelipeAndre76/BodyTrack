@@ -19,4 +19,13 @@ class AdminLog extends Model
             'admin_id'
         );
     }
+
+    private function logAction(string $action, string $description): void
+{
+    AdminLog::create([
+        'admin_id' => auth()->id(),
+        'action' => $action,
+        'description' => $description,
+    ]);
+}
 }

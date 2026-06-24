@@ -13,6 +13,13 @@ class Meal extends Model
         'photo_path',
     ];
 
+    protected function casts(): array
+    {
+        return [
+            'meal_date' => 'date',
+        ];
+    }
+
     public function items()
     {
         return $this->hasMany(MealLog::class);

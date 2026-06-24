@@ -8,13 +8,44 @@
     Nutrição
 </div>
 
-@php
-$proteinPercent = $nutritionGoals['protein'] > 0 ? min(100, ($totals['protein'] / $nutritionGoals['protein']) * 100) : 0;
-$carbsPercent = $nutritionGoals['carbs'] > 0 ? min(100, ($totals['carbs'] / $nutritionGoals['carbs']) * 100) : 0;
-$fatPercent = $nutritionGoals['fat'] > 0 ? min(100, ($totals['fat'] / $nutritionGoals['fat']) * 100) : 0;
-$caloriesPercent = $nutritionGoals['calories'] > 0 ? min(100, ($totals['calories'] / $nutritionGoals['calories']) * 100) : 0;
-@endphp
+<div class="nutrition-page-actions mb-4">
+    <a href="{{ route('nutrition.meal-plan') }}" class="btn-outline-bodytrack">
+        <i class="bi bi-calendar2-check me-2"></i>
+        Plano alimentar diario
+    </a>
 
+    <a href="{{ route('nutrition.history') }}" class="btn-outline-bodytrack">
+        <i class="bi bi-clock-history me-2"></i>
+        Histórico alimentar completo
+    </a>
+</div>
+
+@if($metrics['has_custom_goals'])
+    <div class="body-profile-form-divider mb-4">
+        <span>Metas personalizadas ativas</span>
+        <small>Os macros abaixo estão usando os valores definidos no Perfil Corporal.</small>
+    </div>
+@endif
+
+<div class="body-tabs mb-4" role="tablist">
+    <button class="body-tab active" data-bs-toggle="tab" data-bs-target="#nutrition-summary" type="button">
+        <i class="bi bi-pie-chart"></i>
+        Resumo
+    </button>
+
+    <button class="body-tab" data-bs-toggle="tab" data-bs-target="#nutrition-builder" type="button">
+        <i class="bi bi-plus-circle"></i>
+        Montar refeição
+    </button>
+
+    <button class="body-tab" data-bs-toggle="tab" data-bs-target="#nutrition-history" type="button">
+        <i class="bi bi-clock-history"></i>
+        Histórico
+    </button>
+</div>
+
+<div class="tab-content nutrition-tab-content">
+<div class="tab-pane fade show active" id="nutrition-summary" role="tabpanel">
 <div class="row g-4 mb-4">
     <div class="col-md-3">
         <div class="top-card">
@@ -27,7 +58,7 @@ $caloriesPercent = $nutritionGoals['calories'] > 0 ? min(100, ($totals['calories
             </small>
 
             <div class="body-progress mt-3">
-                <div class="body-progress-bar" style="width: {{ $proteinPercent }}%"></div>
+                <div class="body-progress-bar" style="width: {{ $nutritionGoals['protein'] > 0 ? min(100, ($totals['protein'] / $nutritionGoals['protein']) * 100) : 0 }}%"></div>
             </div>
         </div>
     </div>
@@ -43,7 +74,7 @@ $caloriesPercent = $nutritionGoals['calories'] > 0 ? min(100, ($totals['calories
             </small>
 
             <div class="body-progress mt-3">
-                <div class="body-progress-bar" style="width: {{ $carbsPercent }}%"></div>
+                <div class="body-progress-bar" style="width: {{ $nutritionGoals['carbs'] > 0 ? min(100, ($totals['carbs'] / $nutritionGoals['carbs']) * 100) : 0 }}%"></div>
             </div>
         </div>
     </div>
@@ -59,7 +90,7 @@ $caloriesPercent = $nutritionGoals['calories'] > 0 ? min(100, ($totals['calories
             </small>
 
             <div class="body-progress mt-3">
-                <div class="body-progress-bar" style="width: {{ $fatPercent }}%"></div>
+                <div class="body-progress-bar" style="width: {{ $nutritionGoals['fat'] > 0 ? min(100, ($totals['fat'] / $nutritionGoals['fat']) * 100) : 0 }}%"></div>
             </div>
         </div>
     </div>
@@ -75,129 +106,229 @@ $caloriesPercent = $nutritionGoals['calories'] > 0 ? min(100, ($totals['calories
             </small>
 
             <div class="body-progress mt-3">
-                <div class="body-progress-bar" style="width: {{ $caloriesPercent }}%"></div>
+                <div class="body-progress-bar" style="width: {{ $nutritionGoals['calories'] > 0 ? min(100, ($totals['calories'] / $nutritionGoals['calories']) * 100) : 0 }}%"></div>
             </div>
         </div>
     </div>
 </div>
 
 <div class="row g-4 mb-4">
-  <div class="col-lg-5">
-    <div class="panel">
-        <h4>
-            <i class="bi bi-plus-circle me-2 text-success"></i>
-            Montar refeição
-        </h4>
-
-        <form method="POST" action="{{ route('nutrition.store') }}" enctype="multipart/form-data" class="mt-4">
-            @csrf
-
-            <div class="mb-3">
-                <label class="label mb-2">Tipo de Refeição</label>
-
-                <select name="meal_type" class="form-select body-input" required>
-                    <option value="breakfast">☀ Café da manhã</option>
-                    <option value="lunch" selected>🍽 Almoço</option>
-                    <option value="snack">☕ Lanche</option>
-                    <option value="dinner">🌙 Jantar</option>
-                    <option value="supper">🌃 Ceia</option>
-                </select>
+    <div class="col-md-3">
+        <div class="top-card">
+            <div class="label">Proteína por refeição</div>
+            <div class="value">
+                {{ $metrics['protein_per_meal'] }}g
             </div>
+            <small class="text-secondary">
+                Base: {{ $metrics['meals_per_day'] }} refeições/dia
+            </small>
+        </div>
+    </div>
 
-            <div id="foodsContainer">
-                <div class="food-row mb-3">
-                    <label class="label mb-2">Alimento</label>
-
-                    <select name="foods[0][food_id]" class="form-select body-input food-select" required>
-                        <option value="">Selecione</option>
-
-                        @foreach($foods as $food)
-                            <option
-                                value="{{ $food->id }}"
-                                data-protein="{{ $food->protein_per_100g }}"
-                                data-carbs="{{ $food->carbs_per_100g }}"
-                                data-fat="{{ $food->fat_per_100g }}"
-                                data-calories="{{ $food->calories_per_100g }}"
-                                data-unit-type="{{ $food->unit_type }}"
-                                data-grams-unit="{{ $food->grams_per_unit }}">
-                                {{ $food->name }}
-                            </option>
-                        @endforeach
-                    </select>
-
-                    <label class="label mt-3 mb-2">Quantidade</label>
-
-                    <input type="number"
-                           step="0.1"
-                           name="foods[0][quantity]"
-                           class="form-control body-input quantity-input"
-                           placeholder="Ex: 150 ou 2"
-                           required>
-                </div>
+    <div class="col-md-3">
+        <div class="top-card">
+            <div class="label">Dose útil</div>
+            <div class="value">
+                {{ $metrics['protein_dose_min'] }}-{{ $metrics['protein_dose_max'] }}g
             </div>
+            <small class="text-secondary">
+                Referência por refeição
+            </small>
+        </div>
+    </div>
 
-            <button type="button" id="addFoodBtn" class="btn-outline-bodytrack mb-3">
-                <i class="bi bi-plus-circle me-2"></i>
-                Adicionar outro alimento
-            </button>
-
-            <div class="mb-3">
-                <label class="label mb-2">Foto da refeição opcional</label>
-
-                <input type="file"
-                       name="photo"
-                       class="form-control body-input"
-                       accept="image/*">
+    <div class="col-md-3">
+        <div class="top-card">
+            <div class="label">{{ $metrics['calorie_balance_label'] }}</div>
+            <div class="value">
+                @if($metrics['calorie_deficit'] > 0)
+                    -{{ number_format($metrics['calorie_deficit'], 0) }}
+                @elseif($metrics['calorie_surplus'] > 0)
+                    +{{ number_format($metrics['calorie_surplus'], 0) }}
+                @else
+                    0
+                @endif
             </div>
+            <small class="text-secondary">
+                Alvo: {{ number_format($nutritionGoals['calories'], 0) }} kcal
+            </small>
+        </div>
+    </div>
 
-            <button type="submit" class="btn-bodytrack">
-                Registrar refeição
-            </button>
-        </form>
+    <div class="col-md-3">
+        <div class="top-card">
+            <div class="label">IMC</div>
+            <div class="value">
+                {{ number_format($metrics['bmi'], 1) }}
+            </div>
+            <small class="text-secondary">
+                {{ $metrics['bmi_category']['label'] }}
+            </small>
+        </div>
     </div>
 </div>
+</div>
 
- <div class="col-lg-7">
-    <div class="panel">
-        <h4>
-            <i class="bi bi-calculator me-2 text-success"></i>
-            Prévia da refeição
-        </h4>
+<div class="tab-pane fade" id="nutrition-builder" role="tabpanel">
+<div class="row g-4 mb-4">
+    <div class="col-lg-5">
+        <div class="panel">
+            <h4>
+                <i class="bi bi-plus-circle me-2 text-success"></i>
+                Montar refeição
+            </h4>
 
-        <div class="row g-3 mt-3">
-            <div class="col-md-6">
-                <div class="settings-mini-card">
-                    <span>Proteína</span>
-                    <strong id="previewProtein">0 g</strong>
+            <form method="POST" action="{{ route('nutrition.store') }}" enctype="multipart/form-data" class="mt-4">
+                @csrf
+
+                <div class="mb-3">
+                    <label class="label mb-2">Tipo de refeição</label>
+
+                    <select name="meal_type" id="mealTypeSelect" class="form-select body-input" required>
+                        <option value="breakfast">Café da manhã</option>
+                        <option value="lunch" selected>Almoço</option>
+                        <option value="snack">Lanche</option>
+                        <option value="dinner">Jantar</option>
+                        <option value="supper">Ceia</option>
+                    </select>
                 </div>
-            </div>
 
-            <div class="col-md-6">
-                <div class="settings-mini-card">
-                    <span>Carboidratos</span>
-                    <strong id="previewCarbs">0 g</strong>
-                </div>
-            </div>
+                <div id="foodsContainer">
+                    <div class="food-row mb-3">
+                        <label class="label mb-2">Alimento</label>
 
-            <div class="col-md-6">
-                <div class="settings-mini-card">
-                    <span>Gorduras</span>
-                    <strong id="previewFat">0 g</strong>
-                </div>
-            </div>
+                        <select name="foods[0][food_id]" class="form-select body-input food-select" required>
+                            <option value="">Selecione</option>
 
-            <div class="col-md-6">
-                <div class="settings-mini-card">
-                    <span>Calorias</span>
-                    <strong id="previewCalories">0 kcal</strong>
+                            @foreach($foods as $food)
+                                <option
+                                    value="{{ $food->id }}"
+                                    data-protein="{{ $food->protein_per_100g }}"
+                                    data-carbs="{{ $food->carbs_per_100g }}"
+                                    data-fat="{{ $food->fat_per_100g }}"
+                                    data-calories="{{ $food->calories_per_100g }}"
+                                    data-unit-type="{{ $food->unit_type }}"
+                                    data-grams-unit="{{ $food->grams_per_unit }}">
+                                    {{ $food->name }}
+                                </option>
+                            @endforeach
+                        </select>
+
+                        <label class="label mt-3 mb-2">Quantidade</label>
+
+                        <input type="number"
+                               step="0.1"
+                               name="foods[0][quantity]"
+                               class="form-control body-input quantity-input"
+                               placeholder="Ex: 150 ou 2"
+                               required>
+                    </div>
                 </div>
-            </div>
+
+                <button type="button" id="addFoodBtn" class="btn-outline-bodytrack mb-3">
+                    <i class="bi bi-plus-circle me-2"></i>
+                    Adicionar outro alimento
+                </button>
+
+                <div class="mb-3">
+                    <label class="label mb-2">Foto da refeição opcional</label>
+
+                    <input type="file"
+                           name="photo"
+                           class="form-control body-input"
+                           accept="image/*">
+                </div>
+
+                <button type="submit" class="btn-bodytrack">
+                    Registrar refeição
+                </button>
+            </form>
         </div>
+    </div>
 
-        <div class="nutrition-preview-list mt-4" id="previewList">
-            <p class="text-secondary mb-0">
-                Adicione os alimentos da refeição para visualizar os macros.
-            </p>
+    <div class="col-lg-7">
+        <div class="panel">
+            <h4>
+                <i class="bi bi-calculator me-2 text-success"></i>
+                Prévia da refeição
+            </h4>
+
+            <div class="meal-target-panel mt-4">
+                <div class="meal-target-header">
+                    <div>
+                        <span>Meta da refeição</span>
+                        <strong id="mealTargetTitle">Almoço</strong>
+                    </div>
+
+                    <small id="mealTargetPercent">0%</small>
+                </div>
+
+                <div class="body-progress">
+                    <div class="body-progress-bar" id="mealTargetProgress" style="width: 0%"></div>
+                </div>
+
+                <div class="meal-target-grid">
+                    <div>
+                        <span>Proteína</span>
+                        <strong id="mealTargetProtein">0g</strong>
+                        <small id="mealMissingProtein">Falta 0g</small>
+                    </div>
+
+                    <div>
+                        <span>Carbo</span>
+                        <strong id="mealTargetCarbs">0g</strong>
+                        <small id="mealMissingCarbs">Falta 0g</small>
+                    </div>
+
+                    <div>
+                        <span>Gordura</span>
+                        <strong id="mealTargetFat">0g</strong>
+                        <small id="mealMissingFat">Falta 0g</small>
+                    </div>
+
+                    <div>
+                        <span>Calorias</span>
+                        <strong id="mealTargetCalories">0</strong>
+                        <small id="mealMissingCalories">Falta 0</small>
+                    </div>
+                </div>
+            </div>
+
+            <div class="row g-3 mt-3">
+                <div class="col-md-6">
+                    <div class="settings-mini-card">
+                        <span>Proteína</span>
+                        <strong id="previewProtein">0 g</strong>
+                    </div>
+                </div>
+
+                <div class="col-md-6">
+                    <div class="settings-mini-card">
+                        <span>Carboidratos</span>
+                        <strong id="previewCarbs">0 g</strong>
+                    </div>
+                </div>
+
+                <div class="col-md-6">
+                    <div class="settings-mini-card">
+                        <span>Gorduras</span>
+                        <strong id="previewFat">0 g</strong>
+                    </div>
+                </div>
+
+                <div class="col-md-6">
+                    <div class="settings-mini-card">
+                        <span>Calorias</span>
+                        <strong id="previewCalories">0 kcal</strong>
+                    </div>
+                </div>
+            </div>
+
+            <div class="nutrition-preview-list mt-4" id="previewList">
+                <p class="text-secondary mb-0">
+                    Adicione os alimentos da refeição para visualizar os macros.
+                </p>
+            </div>
         </div>
     </div>
 </div>
@@ -215,103 +346,109 @@ $caloriesPercent = $nutritionGoals['calories'] > 0 ? min(100, ($totals['calories
     $groupedMeals = $meals->groupBy('meal_type');
 @endphp
 
+<div class="tab-pane fade" id="nutrition-history" role="tabpanel">
 <div class="panel">
     <h4 class="mb-4">
         <i class="bi bi-journal-text me-2 text-success"></i>
         Histórico de hoje
     </h4>
 
-    @forelse($mealTypes as $type => $mealInfo)
-        @if(isset($groupedMeals[$type]))
-            <div class="meal-group mb-4">
-                <div class="meal-group-header">
-                    <div>
-                        <i class="bi {{ $mealInfo['icon'] }}"></i>
-                        <strong>{{ $mealInfo['label'] }}</strong>
-                    </div>
-                </div>
-
-                <div class="meal-items">
-                    @foreach($groupedMeals[$type] as $meal)
-                        @php
-                            $mealProtein = $meal->items->sum('protein');
-                            $mealCarbs = $meal->items->sum('carbs');
-                            $mealFat = $meal->items->sum('fat');
-                            $mealCalories = $meal->items->sum('calories');
-                        @endphp
-
-                        <div class="meal-card meal-card-composed">
-                            <div class="meal-card-main">
-                                @if($meal->photo_path)
-                                    <div class="meal-photo">
-                                        <img src="{{ asset('storage/' . $meal->photo_path) }}" alt="Foto da refeição">
-                                    </div>
-                                @else
-                                    <div class="meal-food-icon">
-                                        <i class="bi {{ $mealInfo['icon'] }}"></i>
-                                    </div>
-                                @endif
-
-                                <div>
-                                    <h5>{{ $mealInfo['label'] }}</h5>
-
-                                    <p>
-                                        {{ $meal->items->count() }} alimento(s)
-                                    </p>
-
-                                    <div class="meal-food-list">
-                                        @foreach($meal->items as $item)
-                                            <span>
-                                                {{ $item->food->name }}
-                                                -
-                                                {{ number_format($item->quantity, 1) }}
-                                            </span>
-                                        @endforeach
-                                    </div>
-                                </div>
-                            </div>
-
-                            <div class="meal-macros">
-                                <div>
-                                    <span>Proteína</span>
-                                    <strong>{{ number_format($mealProtein, 1) }}g</strong>
-                                </div>
-
-                                <div>
-                                    <span>Carbo</span>
-                                    <strong>{{ number_format($mealCarbs, 1) }}g</strong>
-                                </div>
-
-                                <div>
-                                    <span>Gordura</span>
-                                    <strong>{{ number_format($mealFat, 1) }}g</strong>
-                                </div>
-
-                                <div>
-                                    <span>Calorias</span>
-                                    <strong>{{ number_format($mealCalories, 0) }}</strong>
-                                </div>
-                            </div>
-
-                            <form method="POST" action="{{ route('nutrition.destroy', $meal) }}">
-                                @csrf
-                                @method('DELETE')
-
-                                <button class="meal-delete">
-                                    <i class="bi bi-trash"></i>
-                                </button>
-                            </form>
-                        </div>
-                    @endforeach
-                </div>
-            </div>
-        @endif
-    @empty
+    @if($meals->isEmpty())
         <p class="text-secondary mb-0">
             Nenhuma refeição registrada hoje.
         </p>
-    @endforelse
+    @else
+        @foreach($mealTypes as $type => $mealInfo)
+            @if($groupedMeals->has($type))
+                <div class="meal-group mb-4">
+                    <div class="meal-group-header">
+                        <div>
+                            <i class="bi {{ $mealInfo['icon'] }}"></i>
+                            <strong>{{ $mealInfo['label'] }}</strong>
+                        </div>
+                    </div>
+
+                    <div class="meal-items">
+                        @foreach($groupedMeals[$type] as $meal)
+                            @php
+                                $mealProtein = $meal->items->sum('protein');
+                                $mealCarbs = $meal->items->sum('carbs');
+                                $mealFat = $meal->items->sum('fat');
+                                $mealCalories = $meal->items->sum('calories');
+                            @endphp
+
+                            <div class="meal-card meal-card-composed">
+                                <div class="meal-card-main">
+                                    @if($meal->photo_path)
+                                        <div class="meal-photo">
+                                            <img src="{{ asset('storage/' . $meal->photo_path) }}" alt="Foto da refeição">
+                                        </div>
+                                    @else
+                                        <div class="meal-food-icon">
+                                            <i class="bi {{ $mealInfo['icon'] }}"></i>
+                                        </div>
+                                    @endif
+
+                                    <div>
+                                        <h5>{{ $mealInfo['label'] }}</h5>
+
+                                        <p>
+                                            {{ $meal->items->count() }} alimento(s)
+                                        </p>
+
+                                        <div class="meal-food-list">
+                                            @foreach($meal->items as $item)
+                                                <span>
+                                                    {{ $item->food->name }}
+                                                    -
+                                                    {{ number_format($item->quantity, 1) }}
+                                                </span>
+                                            @endforeach
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="meal-macros">
+                                    <div>
+                                        <span>Proteína</span>
+                                        <strong>{{ number_format($mealProtein, 1) }}g</strong>
+                                    </div>
+
+                                    <div>
+                                        <span>Carbo</span>
+                                        <strong>{{ number_format($mealCarbs, 1) }}g</strong>
+                                    </div>
+
+                                    <div>
+                                        <span>Gordura</span>
+                                        <strong>{{ number_format($mealFat, 1) }}g</strong>
+                                    </div>
+
+                                    <div>
+                                        <span>Calorias</span>
+                                        <strong>{{ number_format($mealCalories, 0) }}</strong>
+                                    </div>
+                                </div>
+
+                                <form method="POST" action="{{ route('nutrition.destroy', $meal) }}">
+                                    @csrf
+                                    @method('DELETE')
+
+                                    <button class="meal-delete" type="submit">
+                                        <i class="bi bi-trash"></i>
+                                    </button>
+                                </form>
+                            </div>
+                        @endforeach
+                    </div>
+                </div>
+            @endif
+        @endforeach
+    @endif
 </div>
+</div>
+</div>
+
 @endsection
 
 @section('scripts')
@@ -319,8 +456,11 @@ $caloriesPercent = $nutritionGoals['calories'] > 0 ? min(100, ($totals['calories
 document.addEventListener('DOMContentLoaded', function () {
     const foodsContainer = document.getElementById('foodsContainer');
     const addFoodBtn = document.getElementById('addFoodBtn');
-    const foodOptions = foodsContainer.querySelector('.food-select').innerHTML;
+    const mealTypeSelect = document.getElementById('mealTypeSelect');
+    const firstFoodSelect = foodsContainer.querySelector('.food-select');
+    const foodOptions = firstFoodSelect ? firstFoodSelect.innerHTML : '';
     const foodSearchUrl = "{{ route('nutrition.search-foods') }}";
+    const mealPlanTargets = @json($mealPlanByType);
 
     let foodIndex = 1;
 
@@ -371,6 +511,49 @@ document.addEventListener('DOMContentLoaded', function () {
             unit_type: selected.dataset.unitType ?? 'grams',
             grams_per_unit: selected.dataset.gramsUnit ?? 1
         };
+    }
+
+    function formatNumber(value, decimals = 1) {
+        return Number(value || 0).toLocaleString('pt-BR', {
+            minimumFractionDigits: decimals,
+            maximumFractionDigits: decimals
+        });
+    }
+
+    function updateMealTarget(previewTotals) {
+        const selectedType = mealTypeSelect ? mealTypeSelect.value : 'lunch';
+        const plan = mealPlanTargets[selectedType] || mealPlanTargets.lunch || null;
+
+        if (!plan) {
+            return;
+        }
+
+        const afterSave = {
+            protein: Number(plan.current.protein || 0) + previewTotals.protein,
+            carbs: Number(plan.current.carbs || 0) + previewTotals.carbs,
+            fat: Number(plan.current.fat || 0) + previewTotals.fat,
+            calories: Number(plan.current.calories || 0) + previewTotals.calories,
+        };
+
+        const percent = Math.min(100, (afterSave.calories / Math.max(1, Number(plan.target.calories || 1))) * 100);
+        const missing = {
+            protein: Math.max(0, Number(plan.target.protein || 0) - afterSave.protein),
+            carbs: Math.max(0, Number(plan.target.carbs || 0) - afterSave.carbs),
+            fat: Math.max(0, Number(plan.target.fat || 0) - afterSave.fat),
+            calories: Math.max(0, Number(plan.target.calories || 0) - afterSave.calories),
+        };
+
+        document.getElementById('mealTargetTitle').innerText = plan.label || 'Refeição';
+        document.getElementById('mealTargetPercent').innerText = Math.round(percent) + '%';
+        document.getElementById('mealTargetProgress').style.width = percent + '%';
+        document.getElementById('mealTargetProtein').innerText = formatNumber(plan.target.protein, 0) + 'g';
+        document.getElementById('mealTargetCarbs').innerText = formatNumber(plan.target.carbs, 0) + 'g';
+        document.getElementById('mealTargetFat').innerText = formatNumber(plan.target.fat, 0) + 'g';
+        document.getElementById('mealTargetCalories').innerText = formatNumber(plan.target.calories, 0);
+        document.getElementById('mealMissingProtein').innerText = 'Falta ' + formatNumber(missing.protein, 1) + 'g';
+        document.getElementById('mealMissingCarbs').innerText = 'Falta ' + formatNumber(missing.carbs, 1) + 'g';
+        document.getElementById('mealMissingFat').innerText = 'Falta ' + formatNumber(missing.fat, 1) + 'g';
+        document.getElementById('mealMissingCalories').innerText = 'Falta ' + formatNumber(missing.calories, 0);
     }
 
     function updatePreview() {
@@ -431,6 +614,12 @@ document.addEventListener('DOMContentLoaded', function () {
         document.getElementById('previewCarbs').innerText = totalCarbs.toFixed(1) + ' g';
         document.getElementById('previewFat').innerText = totalFat.toFixed(1) + ' g';
         document.getElementById('previewCalories').innerText = totalCalories.toFixed(0) + ' kcal';
+        updateMealTarget({
+            protein: totalProtein,
+            carbs: totalCarbs,
+            fat: totalFat,
+            calories: totalCalories
+        });
 
         previewList.innerHTML = html || `
             <p class="text-secondary mb-0">
@@ -465,9 +654,14 @@ document.addEventListener('DOMContentLoaded', function () {
 
                 render: {
                     option: function(item, escape) {
+                        const sourceBadge = item.source
+                            ? `<span class="food-source-badge">${escape(item.source)}</span>`
+                            : '';
+
                         return `
                             <div>
                                 <strong>${escape(item.name)}</strong>
+                                ${sourceBadge}
                                 <br>
                                 <small>
                                     P: ${item.protein_per_100g ?? 0}g |
@@ -525,23 +719,28 @@ document.addEventListener('DOMContentLoaded', function () {
         if (event.target.classList.contains('food-select')) {
             updatePreview();
         }
+
+        if (event.target.id === 'mealTypeSelect') {
+            updatePreview();
+        }
     });
 
     document.addEventListener('click', function (event) {
         const removeButton = event.target.closest('.remove-food-btn');
 
-        if (removeButton) {
-            const row = removeButton.closest('.food-row');
-
-            const select = row.querySelector('.food-select');
-
-            if (select && select.tomselect) {
-                select.tomselect.destroy();
-            }
-
-            row.remove();
-            updatePreview();
+        if (!removeButton) {
+            return;
         }
+
+        const row = removeButton.closest('.food-row');
+        const select = row.querySelector('.food-select');
+
+        if (select && select.tomselect) {
+            select.tomselect.destroy();
+        }
+
+        row.remove();
+        updatePreview();
     });
 
     initTomSelect();

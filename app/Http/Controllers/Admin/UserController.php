@@ -25,21 +25,57 @@ class UserController extends Controller
         ]);
     }
 
-    public function index()
-    {
-        $users = User::latest()->paginate(15);
+public function index(Request $request)
+{
+    $search = trim($request->get('q', ''));
+    $role = $request->get('role');
+    $status = $request->get('status');
 
-        $totalUsers = User::count();
-        $totalAdmins = User::where('is_admin', true)->count();
-        $totalCommonUsers = User::where('is_admin', false)->count();
+    $query = User::query();
 
-        return view('admin.users.index', compact(
-            'users',
-            'totalUsers',
-            'totalAdmins',
-            'totalCommonUsers'
-        ));
+    if ($search !== '') {
+        $query->where(function ($q) use ($search) {
+            $q->where('name', 'like', "%{$search}%")
+                ->orWhere('email', 'like', "%{$search}%");
+        });
     }
+
+    if ($role === 'admin') {
+        $query->where('is_admin', true);
+    }
+
+    if ($role === 'user') {
+        $query->where('is_admin', false);
+    }
+
+    if ($status === 'active') {
+        $query->where('is_active', true);
+    }
+
+    if ($status === 'blocked') {
+        $query->where('is_active', false);
+    }
+
+    $users = $query
+        ->latest()
+        ->paginate(12)
+        ->withQueryString();
+
+    $totalUsers = User::count();
+    $totalAdmins = User::where('is_admin', true)->count();
+    $totalCommonUsers = User::where('is_admin', false)->count();
+    $totalActiveUsers = User::where('is_active', true)->count();
+    $totalBlockedUsers = User::where('is_active', false)->count();
+
+    return view('admin.users.index', compact(
+        'users',
+        'totalUsers',
+        'totalAdmins',
+        'totalCommonUsers',
+        'totalActiveUsers',
+        'totalBlockedUsers'
+    ));
+}
 
     public function toggleStatus(Request $request, User $user)
     {

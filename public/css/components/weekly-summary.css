@@ -1,0 +1,313 @@
+.weekly-summary-page {
+    display: flex;
+    flex-direction: column;
+    gap: 24px;
+}
+
+.weekly-summary-hero,
+.weekly-summary-panel {
+    border: 1px solid rgba(163, 230, 53, .24);
+    border-radius: 8px;
+    background:
+        linear-gradient(135deg, rgba(163, 230, 53, .08), rgba(8, 13, 9, .96) 42%),
+        rgba(7, 11, 8, .94);
+    box-shadow: 0 22px 70px rgba(0, 0, 0, .3);
+}
+
+.weekly-summary-hero {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 24px;
+    min-height: 190px;
+    padding: 30px;
+}
+
+.weekly-summary-kicker {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    color: #9ee62d;
+    font-size: 13px;
+    font-weight: 900;
+    margin-bottom: 12px;
+}
+
+.weekly-summary-hero h1 {
+    color: #fff;
+    font-size: 42px;
+    line-height: 1.05;
+    font-weight: 900;
+    letter-spacing: 0;
+    margin: 0 0 10px;
+}
+
+.weekly-summary-hero p {
+    max-width: 720px;
+    color: #aebda7;
+    margin: 0;
+}
+
+.weekly-summary-score {
+    min-width: 230px;
+    padding: 22px;
+    border: 1px solid rgba(163, 230, 53, .24);
+    border-radius: 8px;
+    background: rgba(2, 6, 4, .72);
+}
+
+.weekly-summary-score span,
+.weekly-summary-score small,
+.weekly-summary-overview span,
+.weekly-summary-overview small,
+.weekly-summary-header span,
+.weekly-summary-header small,
+.weekly-highlight-item span,
+.weekly-day-head span,
+.weekly-day-head small,
+.weekly-day-metrics span,
+.weekly-checkin-list span,
+.weekly-checkin-list small,
+.weekly-empty-state span {
+    color: #a9bdd0;
+    font-size: 13px;
+}
+
+.weekly-summary-score strong {
+    display: block;
+    color: #9ee62d;
+    font-size: 42px;
+    line-height: 1;
+    font-weight: 900;
+    margin: 10px 0;
+}
+
+.weekly-summary-overview {
+    display: grid;
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+    gap: 16px;
+}
+
+.weekly-summary-overview article {
+    min-height: 120px;
+    padding: 22px;
+    border: 1px solid rgba(163, 230, 53, .2);
+    border-radius: 8px;
+    background: rgba(8, 13, 9, .92);
+}
+
+.weekly-summary-overview strong {
+    display: block;
+    color: #9ee62d;
+    font-size: 31px;
+    line-height: 1;
+    font-weight: 900;
+    margin: 12px 0 8px;
+}
+
+.weekly-summary-layout {
+    display: grid;
+    grid-template-columns: minmax(0, 1.35fr) minmax(340px, .65fr);
+    gap: 20px;
+}
+
+.weekly-summary-panel {
+    min-width: 0;
+    padding: 24px;
+}
+
+.weekly-summary-panel.is-large {
+    min-height: 420px;
+}
+
+.weekly-summary-header {
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+    gap: 16px;
+    margin-bottom: 18px;
+}
+
+.weekly-summary-header h2 {
+    color: #fff;
+    font-size: 26px;
+    line-height: 1.1;
+    font-weight: 900;
+    margin: 4px 0 0;
+}
+
+.weekly-summary-link {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    color: #9ee62d;
+    font-weight: 900;
+    text-decoration: none;
+}
+
+.weekly-summary-link:hover {
+    color: #c7ff68;
+}
+
+.weekly-highlight-list,
+.weekly-checkin-list {
+    display: grid;
+    gap: 12px;
+}
+
+.weekly-highlight-item,
+.weekly-checkin-list article {
+    display: grid;
+    grid-template-columns: 48px minmax(0, 1fr);
+    gap: 14px;
+    align-items: center;
+    padding: 16px;
+    border: 1px solid rgba(163, 230, 53, .16);
+    border-radius: 8px;
+    background: rgba(2, 6, 4, .72);
+}
+
+.weekly-highlight-item i {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 48px;
+    height: 48px;
+    border-radius: 8px;
+    background: rgba(163, 230, 53, .1);
+    color: #9ee62d;
+    font-size: 22px;
+}
+
+.weekly-highlight-item.highlight-warning {
+    border-color: rgba(251, 191, 36, .28);
+}
+
+.weekly-highlight-item.highlight-warning i {
+    color: #fbbf24;
+    background: rgba(251, 191, 36, .1);
+}
+
+.weekly-highlight-item.highlight-neutral i {
+    color: #67e8f9;
+    background: rgba(103, 232, 249, .1);
+}
+
+.weekly-highlight-item strong,
+.weekly-checkin-list strong,
+.weekly-empty-state strong {
+    display: block;
+    color: #fff;
+    font-size: 16px;
+    font-weight: 900;
+    margin-bottom: 4px;
+}
+
+.weekly-day-grid {
+    display: grid;
+    grid-template-columns: repeat(7, minmax(150px, 1fr));
+    gap: 14px;
+}
+
+.weekly-day-card {
+    min-height: 220px;
+    padding: 16px;
+    border: 1px solid rgba(163, 230, 53, .16);
+    border-radius: 8px;
+    background: rgba(2, 6, 4, .72);
+}
+
+.weekly-day-head {
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+    gap: 10px;
+    margin-bottom: 14px;
+}
+
+.weekly-day-head strong,
+.weekly-day-head small {
+    display: block;
+    color: #9ee62d;
+    font-size: 20px;
+    line-height: 1;
+    font-weight: 900;
+    margin-top: 5px;
+}
+
+.weekly-day-metrics {
+    display: grid;
+    gap: 8px;
+    margin-top: 14px;
+}
+
+.weekly-day-metrics span {
+    display: flex;
+    justify-content: space-between;
+    gap: 8px;
+}
+
+.weekly-day-metrics strong {
+    color: #fff;
+}
+
+.weekly-checkin-list article {
+    display: block;
+}
+
+.weekly-empty-state {
+    display: flex;
+    min-height: 230px;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+    gap: 8px;
+    border: 1px dashed rgba(163, 230, 53, .24);
+    border-radius: 8px;
+    text-align: center;
+}
+
+.weekly-empty-state i {
+    color: #9ee62d;
+    font-size: 34px;
+}
+
+@media (max-width: 1400px) {
+    .weekly-day-grid {
+        grid-template-columns: repeat(auto-fit, minmax(190px, 1fr));
+    }
+}
+
+@media (max-width: 1200px) {
+    .weekly-summary-overview {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+
+    .weekly-summary-layout {
+        grid-template-columns: 1fr;
+    }
+}
+
+@media (max-width: 768px) {
+    .weekly-summary-hero,
+    .weekly-summary-header {
+        align-items: flex-start;
+        flex-direction: column;
+    }
+
+    .weekly-summary-hero {
+        padding: 24px;
+    }
+
+    .weekly-summary-hero h1 {
+        font-size: 34px;
+    }
+
+    .weekly-summary-score {
+        width: 100%;
+    }
+
+    .weekly-summary-overview {
+        grid-template-columns: 1fr;
+    }
+}

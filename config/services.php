@@ -35,4 +35,12 @@ return [
         ],
     ],
 
+    'usda' => [
+    'fdc_api_key' => env('USDA_FDC_API_KEY'),
+],
+
+'tesseract' => [
+    'path' => env('TESSERACT_PATH', 'tesseract'),
+],
+
 ];
