@@ -1,18 +1,19 @@
-# 🟢 BodyTrack
+# BodyTrack
 
 ![Laravel](https://img.shields.io/badge/Laravel-13-red)
 ![PHP](https://img.shields.io/badge/PHP-8.5-blue)
+![Livewire](https://img.shields.io/badge/Livewire-3-purple)
 ![Bootstrap](https://img.shields.io/badge/Bootstrap-5-purple)
 ![Status](https://img.shields.io/badge/Status-Em%20Desenvolvimento-green)
-![Version](https://img.shields.io/badge/Version-v0.4.0-orange)
+![Version](https://img.shields.io/badge/Version-v4.0.0-orange)
 
 ---
 
-# 📌 Sobre o Projeto
+# Sobre o Projeto
 
-O **BodyTrack** é uma plataforma web para acompanhamento de evolução corporal, saúde, nutrição e treinos.
+O BodyTrack é uma plataforma web completa para acompanhamento de evolução corporal, saúde, nutrição, treinos e comunidade fitness.
 
-Além das funcionalidades voltadas ao usuário, o projeto possui um painel administrativo completo para gerenciamento do sistema.
+O projeto nasceu como estudo em Laravel e evoluiu para uma aplicação full stack com dashboard premium, painel administrativo, notificações em tempo real, leitura de tabela nutricional por OCR, controle corporal, metas inteligentes, treinos, registros de água, check-ins semanais e feed social no estilo Instagram.
 
 O projeto está sendo desenvolvido para:
 
@@ -21,78 +22,260 @@ O projeto está sendo desenvolvido para:
 * Arquitetura de Sistemas Web
 * Construção de portfólio profissional
 * Evolução contínua de produto
+* Experiência real de produto SaaS
 
 ---
 
-# 🚀 Funcionalidades Implementadas
+# Funcionalidades Implementadas
 
-## 🔐 Autenticação
+## Autenticação
 
 * Cadastro de usuários
 * Login personalizado
 * Logout
 * Controle de sessão
 * Proteção de rotas
+* Middleware de usuário ativo
+* Middleware administrativo
 
 ---
 
-## 📊 Dashboard do Usuário
+## Dashboard do Usuário
 
 * Peso atual
 * Peso perdido
 * Peso objetivo
 * IMC
 * Progresso corporal
-* Gráficos interativos
 * Cards motivacionais
+* Indicadores rápidos no topo
+* Layout premium responsivo
+* Navegação por sidebar organizada em categorias
 
 ---
 
-## ⚖️ Controle Corporal
+## Perfil Corporal
 
-Cadastro de:
+Cadastro e acompanhamento de:
 
 * Altura
 * Peso inicial
 * Peso atual
 * Peso objetivo
+* Idade
+* Sexo
+* Nível de atividade
+* Objetivo corporal
+* Meta calórica
+* Estratégia de déficit calórico
 
-Objetivos:
+Objetivos disponíveis:
 
 * Emagrecimento
 * Ganho de massa
 * Recomposição corporal
+* Manutenção
 
 ---
 
-## 💧 Controle de Água
+## Métricas Corporais Inteligentes
 
-* Registro rápido
+* Cálculo de IMC
+* Classificação corporal
+* Estimativa de gasto calórico diário
+* Cálculo de meta de calorias
+* Proteína diária recomendada
+* Carboidratos recomendados
+* Gorduras recomendadas
+* Déficit calórico configurável
+* Metas anatômicas e nutricionais
+
+---
+
+## Pesagens
+
+* Registro de peso
+* Histórico de pesagens
+* Evolução visual
+* Comparativo com objetivo
+* Indicadores de progresso
+
+---
+
+## Água
+
+* Registro rápido de consumo
 * Meta automática
 * Histórico diário
-* Atualização em tempo real
-* Exclusão dinâmica
-* SweetAlert2
+* Atualização dinâmica
+* Exclusão sem reload
+* Visual premium em cards
+* Feedback com SweetAlert2
 
 ---
 
-## 🍽 Nutrição
+## Nutrição
 
 * Cadastro de refeições
-* Busca de alimentos
 * Histórico alimentar
+* Busca de alimentos
+* Cadastro de alimentos próprios
+* Meus alimentos
+* Registro de macros
+* Calorias consumidas
+* Proteína consumida
+* Carboidratos consumidos
+* Gorduras consumidas
+* Plano alimentar diário
+* Dashboard nutricional
 
 ---
 
-## 🏋️ Treinos
+## OCR de Tabela Nutricional
+
+* Upload de foto da tabela nutricional
+* Leitura com Tesseract OCR
+* Extração automática de dados
+* Cadastro automático de alimento
+* Modal de confirmação antes de salvar
+* Registro de logs do OCR
+* Histórico de leituras realizadas
+* Foto nutricional salva no banco de dados
+* Compressão automática da imagem para reduzir peso no servidor
+
+Exemplo de leitura:
+
+* Nome do alimento
+* Porção
+* Calorias
+* Proteína
+* Carboidratos
+* Gorduras
+
+---
+
+## Meus Alimentos
+
+* Listagem dos alimentos cadastrados pelo usuário
+* Cards premium com informações nutricionais
+* Foto da tabela nutricional
+* Edição de alimento
+* Exclusão de alimento
+* Notificação ao cadastrar
+* Notificação ao excluir
+
+---
+
+## Treinos
 
 * Cadastro de treinos
-* Histórico
+* Histórico de treinos
 * Organização por exercícios
+* Seleção dinâmica de exercícios sem reload
+* Plano semanal de treino
+* Rodízio configurável pelo usuário
+* Dias de descanso
+* Treinos personalizados como Push, Pull, Legs ou qualquer nome escolhido
 
 ---
 
-# 👨‍💼 Painel Administrativo
+## Evolução
+
+* Fotos de evolução
+* Histórico visual
+* Check-in semanal
+* Comparativo corporal
+* Relatórios de progresso
+* Galeria de evolução
+* Upload comprimido para economizar armazenamento
+
+---
+
+## Metas Inteligentes
+
+* Metas corporais
+* Metas nutricionais
+* Metas de água
+* Metas de treino
+* Acompanhamento de progresso
+* Indicadores automáticos
+
+---
+
+## Resumo Semanal
+
+* Visão consolidada da semana
+* Peso
+* Água
+* Nutrição
+* Treinos
+* Check-ins
+* Evolução geral
+
+---
+
+# Comunidade BodyTrack
+
+## Feed Social
+
+* Feed no estilo Instagram
+* Posts com foto
+* Descrição do post
+* Categorias como treino, receita, evolução e dica
+* Layout compacto
+* Visualização em modal
+* Curtidas
+* Comentários
+* Respostas em comentários
+* Curtidas em comentários
+* Compartilhamento
+* Salvar post
+* Excluir post próprio
+
+---
+
+## Status
+
+* Status no estilo stories
+* Upload de foto vertical
+* Visualização em tela modal
+* Reações no status
+* Exclusão do próprio status
+* Imagens otimizadas para formato 1080x1920
+
+---
+
+## Perfil Social
+
+* Perfil público do usuário
+* Foto de perfil
+* Bio
+* Posts do usuário
+* Posts salvos
+* Seguidores
+* Seguindo
+* Sugestões de usuários
+* Seguir e deixar de seguir
+
+---
+
+## Notificações em Tempo Real
+
+* Sino de notificações
+* Atualização automática sem reload
+* Notificações de ações importantes
+* Notificações de alimentos cadastrados
+* Notificações de alimentos excluídos
+* Notificações sociais
+* Página completa de notificações
+* Marcar como lidas
+* Limpar notificações
+* Toast visual
+* Correção automática de acentuação em português
+
+---
+
+# Painel Administrativo
 
 ## Dashboard Administrativo
 
@@ -105,6 +288,7 @@ Objetivos:
 * Exercícios sem foto
 * Barra de progresso de imagens
 * Últimas atividades administrativas
+* Visual premium
 
 ---
 
@@ -114,6 +298,8 @@ Objetivos:
 * Edição
 * Exclusão
 * Busca instantânea
+* Organização por categoria
+* Visual moderno
 
 ---
 
@@ -134,11 +320,13 @@ Objetivos:
 * Sem recarregamento da página
 * Visualização ampliada
 * Barra de progresso dinâmica
-* Filtro:
+* Filtros por status
 
-  * Todos
-  * Com Foto
-  * Sem Foto
+Filtros:
+
+* Todos
+* Com foto
+* Sem foto
 
 ---
 
@@ -155,17 +343,6 @@ Objetivos:
 
 ---
 
-## Segurança
-
-* Middleware Admin
-* Middleware Usuário Ativo
-* Senha Mestre Administrativa
-* Proteção contra autoexclusão
-* Proteção contra autobloqueio
-* SweetAlert de confirmação
-
----
-
 ## Logs Administrativos
 
 Registro automático de:
@@ -173,53 +350,99 @@ Registro automático de:
 * Alteração de administradores
 * Bloqueio de usuários
 * Exclusão de usuários
+* Ações administrativas importantes
 
 Recursos:
 
 * Busca instantânea
 * Histórico completo
 * Exportação CSV
+* Exportação PDF
+* Relatórios administrativos
 
 ---
 
-# 🎨 Interface
+# Segurança
 
-* Tema Dark
-* Verde Lime
-* Layout Responsivo
-* Sidebar Premium
-* Dashboard Moderno
-* Cards Interativos
+* Middleware Admin
+* Middleware Usuário Ativo
+* Senha mestre administrativa
+* Proteção contra autoexclusão
+* Proteção contra autobloqueio
+* SweetAlert2 para confirmações
+* Validações no backend
+* Proteção de rotas autenticadas
+* Controle de permissões por usuário
+
+---
+
+# Interface
+
+* Tema dark premium
+* Verde lime como cor principal
+* Layout responsivo
+* Sidebar organizada por categorias
+* Topbar com indicadores rápidos
+* Cards modernos
+* Modais premium
 * SweetAlert2
+* Livewire para interações dinâmicas
+* Componentes visuais reutilizáveis
+* Experiência inspirada em apps modernos
 
 ---
 
-# 🛠 Tecnologias Utilizadas
+# Otimização de Imagens
+
+O BodyTrack possui compressão automática de imagens no navegador antes do envio ao servidor.
+
+Presets implementados:
+
+* Post social
+* Status
+* Foto de perfil
+* Foto de tabela nutricional
+* Foto de check-in
+
+Benefícios:
+
+* Menos peso no banco de dados
+* Upload mais rápido
+* Menor consumo de servidor
+* Melhor experiência no navegador
+
+---
+
+# Tecnologias Utilizadas
 
 ## Backend
 
 * PHP 8.5
 * Laravel 13
 * Laravel Breeze
+* Laravel Livewire
 * Eloquent ORM
 * SQLite
+* Tesseract OCR
 
 ## Frontend
 
 * Blade
+* Livewire
 * Bootstrap 5
 * Bootstrap Icons
 * JavaScript
 * Fetch API
 * ApexCharts
 * SweetAlert2
+* CSS modularizado
 
 ---
 
-# ⚙️ Instalação
+# Instalação
 
 ```bash
-git clone https://github.com/FelipeAndre76/BodyTrack.git
+git clone git@github.com:FelipeAndre76/BodyTrack.git
 
 cd BodyTrack
 
@@ -238,7 +461,23 @@ php artisan serve
 
 ---
 
-# 📂 Estrutura Principal
+# Configuração do Tesseract OCR
+
+No Windows, instale o Tesseract OCR e configure no arquivo `.env`:
+
+```env
+TESSERACT_PATH="C:\\Program Files\\Tesseract-OCR\\tesseract.exe"
+```
+
+Para testar no PowerShell:
+
+```powershell
+& "C:\Program Files\Tesseract-OCR\tesseract.exe" --version
+```
+
+---
+
+# Estrutura Principal
 
 ```text
 BodyTrack
@@ -248,8 +487,25 @@ BodyTrack
 ├── Pesagens
 ├── Água
 ├── Nutrição
+│   ├── Registrar Refeição
+│   ├── Meus Alimentos
+│   ├── OCR Nutricional
+│   └── Plano Diário
 ├── Treinos
-
+│   ├── Registro de Treino
+│   ├── Plano Semanal
+│   └── Histórico
+├── Evolução
+├── Check-in Semanal
+├── Metas Inteligentes
+├── Resumo Semanal
+├── Comunidade
+│   ├── Feed Social
+│   ├── Status
+│   ├── Perfil Social
+│   ├── Seguidores
+│   └── Seguindo
+├── Notificações
 ├── Admin
 │   ├── Dashboard
 │   ├── Exercícios
@@ -257,7 +513,6 @@ BodyTrack
 │   ├── Fotos
 │   ├── Usuários
 │   └── Logs
-
 ├── Login
 ├── Registro
 └── Logout
@@ -265,38 +520,41 @@ BodyTrack
 
 ---
 
-# 🧠 Roadmap
+# Roadmap
 
-## v0.5.0
+## v4.1.0
 
-* [ ] Logs completos de Exercícios
-* [ ] Logs completos de Categorias
-* [ ] Logs completos de Fotos
-* [ ] Exportação PDF
+* [ ] Melhorar página individual do post
+* [ ] Sistema de denúncia de post
+* [ ] Moderação social no painel admin
+* [ ] Privacidade de perfil social
 
-## v0.6.0
+## v4.2.0
 
-* [ ] Upload em Massa de Fotos
-* [ ] Dashboard Executivo
-* [ ] Configurações Administrativas
+* [ ] Ranking semanal de evolução
+* [ ] Desafios entre usuários
+* [ ] Badges e conquistas
+* [ ] Estatísticas sociais
 
-## v0.7.0
+## v4.3.0
 
-* [ ] Exames Laboratoriais
-* [ ] Controle de Medicamentos
-* [ ] Evolução por Fotos
+* [ ] Melhorias no OCR nutricional
+* [ ] Banco interno de alimentos
+* [ ] Sugestões alimentares automáticas
+* [ ] Relatórios nutricionais avançados
 
-## v1.0.0
+## v5.0.0
 
 * [ ] BodyTrack AI
 * [ ] Aplicativo Mobile
-* [ ] Relatórios Avançados
-* [ ] Inteligência Artificial para Saúde e Treinos
+* [ ] Relatórios avançados
+* [ ] Inteligência artificial para saúde, treinos e nutrição
 
 ---
 
-# 👨‍💻 Desenvolvedor
+# Desenvolvedor
 
 **Felipe André Sousa Brito**
 
-Projeto desenvolvido para estudo, portfólio e aprofundamento em Laravel, Arquitetura Web, UX/UI e Desenvolvimento Full Stack.
+Projeto desenvolvido para estudo, portfólio e aprofundamento em Laravel, Arquitetura Web, UX/UI, Desenvolvimento Full Stack e criação de produto digital completo.
+
